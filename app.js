@@ -39,14 +39,20 @@ app.get('/user/:id', (request, response) => {
     const id = request.params.id;
     const sql = `SELECT * FROM user WHERE id = ${id}`;
     let user = null;
-    const query = db.query(sql, (error, result) => {
-        if (error) {
-            throw error;
-        }
-        console.log(result);
-        user = JSON.parse(JSON.stringify(result));
-    });
-    response.status(200).send(user[0]);
+    try {
+        const query = db.query(sql, function (error, rows, fields) {
+            if (error) {
+                throw error;
+            }
+            console.log(rows[0]);
+            //user = JSON.parse(JSON.stringify(result));
+            //console.log(user);
+        });
+        //response.status(200).send(user[0]);
+    } catch (error) {
+        console.log(error);
+        response.status(500).send();
+    }
 });
 
 /**
