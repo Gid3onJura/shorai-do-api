@@ -1,35 +1,16 @@
 const express = require('express');
-const mysql = require('mysql');
 require('dotenv').config();
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 const BASE_URL = process.env.BASE_URL || 'http://localhost';
 
 app.use(express.json());
-
-// create connection
-const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PW,
-    database: process.env.DB_NAME
-});
-
-
-// connect
-db.connect((error) => {
-    if (error) {
-        throw error;
-    }
-    console.log('mysql connected...');
-});
+app.use(express.urlencoded({ extended: true }));
 
 const mockUser = require('./mock/user.json');
 
-app.listen(
-    PORT,
-    () => console.log(`it's alive on ${BASE_URL}:${PORT}`)
-);
+app.listen(PORT, () => console.log(`it's alive on ${BASE_URL}:${PORT}`));
 
 /**
  * get user
@@ -40,14 +21,21 @@ app.get('/user/:id', (request, response) => {
     const sql = `SELECT * FROM user WHERE id = ${id}`;
     let user = null;
     try {
-        const query = db.query(sql, function (error, rows, fields) {
-            if (error) {
-                throw error;
-            }
-            console.log(rows[0]);
-            //user = JSON.parse(JSON.stringify(result));
-            //console.log(user);
-        });
+        if (db) {
+            const query = db.query(sql, function (error, rows, fields) {
+                if (error) {
+                    throw error;
+                }
+                if (rows && rows[0] && rows.length === 1) {
+                    user = rows[0];
+                    response.status(200).send(user);
+                } else {
+                    response.status(500).send({ message: 'user not detectable' });
+                }
+            });
+        } else {
+            response.status(500).send({ message: 'database not available' });
+        }
         //response.status(200).send(user[0]);
     } catch (error) {
         console.log(error);
