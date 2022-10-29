@@ -3,10 +3,10 @@ const User = require('../models/User');
 module.exports = {
     findAllUser: async function () {
         try {
-            const user = await User.findAll({
+            const users = await User.findAll({
                 attributes: ['id', 'nickname', 'email', 'dojo', 'password']
             }).catch((error) => []);
-            return user;
+            return users;
         }
         catch (error) {
             console.log(error);
@@ -14,6 +14,17 @@ module.exports = {
                 status: 500
             }
         }
-    }
+    },
+    createUser: async function (data) {
+        try {
+            const newUser = await User.create(data);
+        }
+        catch (error) {
+            console.log(error);
+            return {
+                status: 500
+            }
+        }
 
+    }
 }
