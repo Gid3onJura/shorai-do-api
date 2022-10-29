@@ -1,5 +1,8 @@
 const express = require('express');
+const path = require('path');
 require('dotenv').config();
+
+const db = require('./db/index');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -8,15 +11,29 @@ const BASE_URL = process.env.BASE_URL || 'http://localhost';
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const mockUser = require('./mock/user.json');
+//const mockUser = require('./mock/user.json');
 
 app.listen(PORT, () => console.log(`it's alive on ${BASE_URL}:${PORT}`));
+
+// user routes
+app.use('/user', require('./routes/users'));
+
+
+
+
+
+
+
+
+
+
+
 
 /**
  * get user
  * 
  */
-app.get('/user/:id', (request, response) => {
+/*app.get('/user/:id', (request, response) => {
     const id = request.params.id;
     const sql = `SELECT * FROM user WHERE id = ${id}`;
     let user = null;
@@ -47,6 +64,7 @@ app.get('/user/:id', (request, response) => {
  * set user
  * 
  */
+/*
 app.post('/user', (request, response) => {
     const { nickname, email, dojo, } = request.body;
 
@@ -57,3 +75,4 @@ app.post('/user', (request, response) => {
     response.status(201).send({ message: 'user created' });
 
 });
+*/
