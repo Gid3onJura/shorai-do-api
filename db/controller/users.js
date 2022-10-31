@@ -15,7 +15,10 @@ module.exports = {
     },
     nicknameExists: async function (nickname) {
         try {
-            const user = await User.findOne({ where: { nickname: nickname } });
+            const user = await User.findOne({
+                attributes: ['id'],
+                where: { nickname: nickname }
+            });
             if (user) {
                 return true;
             } else {
