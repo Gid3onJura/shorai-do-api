@@ -10,20 +10,31 @@ module.exports = {
         }
         catch (error) {
             console.log(error);
-            return {
-                status: 500
+            return []
+        }
+    },
+    nicknameExists: async function (nickname) {
+        try {
+            const user = await User.findOne({ where: { nickname: nickname } });
+            if (user) {
+                return true;
+            } else {
+                return false;
             }
+        }
+        catch (error) {
+            console.log(error);
+            return true;
         }
     },
     createUser: async function (data) {
         try {
             const newUser = await User.create(data);
+            return true;
         }
         catch (error) {
             console.log(error);
-            return {
-                status: 500
-            }
+            return false;
         }
 
     }
