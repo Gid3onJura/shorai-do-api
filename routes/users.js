@@ -1,14 +1,16 @@
 const express = require('express');
+require('dotenv').config();
 const md5 = require('md5');
 const router = express.Router();
+
 const db = require('../db/index');
 const userController = require('../db/controller/users');
 const schemas = require('../validation/schemas');
 const validation = require('../validation/validation');
+const { authenticateToken } = require('../middleware/authenticateToken');
 
-router.get('/', async (request, response) => {
+router.get('/', authenticateToken, async (request, response) => {
     const findUser = await userController.findAllUser();
-    //console.log('findUser!!!!', findUser);
     if (findUser) {
         return response.send({
             count: findUser.length

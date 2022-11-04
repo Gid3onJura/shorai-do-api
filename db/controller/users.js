@@ -1,3 +1,4 @@
+const md5 = require('md5');
 const User = require('../models/User');
 
 module.exports = {
@@ -40,5 +41,22 @@ module.exports = {
             return false;
         }
 
+    },
+    userExists: async function (nickname, password) {
+        try {
+            const user = await User.findOne({
+                attributes: ['id', 'nickname'],
+                where: { nickname: nickname, password: md5(password) }
+            });
+            if (user) {
+                return user.dataValues;
+            } else {
+                return false;
+            }
+        }
+        catch (error) {
+            console.log(error);
+            return false;
+        }
     }
 }

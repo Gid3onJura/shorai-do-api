@@ -16,7 +16,8 @@ const db = new Sequelize(DB_NAME, DB_USER, DB_PW, {
         min: 0,
         acquire: 30000,
         idle: 10000
-    }
+    },
+    logging: process.env.CODE_ENVIRONMENT === 'LOCAL' ? console.log : false
 });
 
 // test connection
