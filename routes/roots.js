@@ -50,7 +50,7 @@ router.post('/refreshtoken', validation(schemas.refreshToken, 'body'), async (re
     });
 });
 
-router.delete('/logout', validation(schemas.refreshToken, 'body'), async (request, response) => {
+router.delete('/logout', validation(schemas.logout, 'body'), async (request, response) => {
     const refreshToken = request.body.token;
     deleteRefreshToken(refreshToken);
     const accessToken = jwt.sign({}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 1 });

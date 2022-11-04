@@ -10,6 +10,9 @@ const schemas = {
     }),
     refreshToken: Joi.object().keys({
         token: Joi.string().required()
+    }),
+    logout: Joi.object().keys({
+        token: Joi.string().required()
     })
 };
 module.exports = schemas;
