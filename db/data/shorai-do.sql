@@ -26,7 +26,7 @@ CREATE TABLE `dojos` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,8 +41,8 @@ CREATE TABLE `ranks` (
   `category` varchar(10) NOT NULL,
   `color` varchar(10) NOT NULL,
   `user` smallint(5) unsigned NOT NULL,
-  `created` datetime NOT NULL DEFAULT current_timestamp(),
-  `graduatedOn` datetime NOT NULL DEFAULT current_timestamp(),
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+  `graduatedOn` datetime NOT NULL,
   PRIMARY KEY (`rank`,`category`,`user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -60,7 +60,7 @@ CREATE TABLE `users` (
   `email` varchar(100) DEFAULT NULL,
   `dojo` tinyint(3) unsigned NOT NULL DEFAULT 1,
   `password` varchar(255) NOT NULL,
-  `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
+  `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   `activated` tinyint(1) NOT NULL DEFAULT 0,
   `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -68,7 +68,7 @@ CREATE TABLE `users` (
   KEY `user_FK` (`dojo`),
   FULLTEXT KEY `user_nickname_IDX` (`nickname`),
   CONSTRAINT `user_FK` FOREIGN KEY (`dojo`) REFERENCES `dojos` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
