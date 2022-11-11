@@ -52,9 +52,10 @@ router.post('/refreshtoken', validation(schemas.refreshToken, 'body'), async (re
 
 router.delete('/logout', validation(schemas.logout, 'body'), async (request, response) => {
     const refreshToken = request.body.token;
-    deleteRefreshToken(refreshToken);
-    const accessToken = jwt.sign({}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 1 });
-    response.send({ accessToken });
+    if (!deleteRefreshToken(refreshToken)) {
+        return response.status(403).send();
+    }
+    response.status(204).send({});
 });
 
 const authenticateUser = async (nickname, password) => {
@@ -79,8 +80,11 @@ const refreshTokenExists = (token) => {
 }
 
 const deleteRefreshToken = (refreshToken) => {
+    if (!refreshTokens.includes(refreshToken)) {
+        return false
+    }
     refreshTokens = refreshTokens.filter(token => token !== refreshToken);
-    return;
+    return true;
 }
 
 module.exports = router;
