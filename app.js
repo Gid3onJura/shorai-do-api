@@ -20,4 +20,4 @@ app.listen(PORT, () => console.log(`it's alive on ${BASE_URL}:${PORT}`));
 app.use('/user', require('./routes/users'));
 
 // root routes
-app.use('/', require('./routes/roots'));
+app.use('/', require('./routes/auth'));
