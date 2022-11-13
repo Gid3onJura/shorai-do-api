@@ -55,15 +55,16 @@ router.delete('/logout', validation(schemas.logout, 'body'), async (request, res
     if (!deleteRefreshToken(refreshToken)) {
         return response.status(403).send();
     }
-    response.status(204).send({});
+    const accessToken = generateAccessToken({}, 1);
+    response.status(200).send({ accessToken });
 });
 
 const authenticateUser = async (nickname, password) => {
     return await userController.userExists(nickname, password);
 }
 
-const generateAccessToken = (user) => {
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN });
+const generateAccessToken = (user, expiresIn = process.env.ACCESS_TOKEN_EXPIRES_IN) => {
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: expiresIn });
 }
 
 const generateRefreshToken = (user) => {
