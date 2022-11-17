@@ -1,0 +1,203 @@
+openapi: 3.0.3
+
+info:
+  title: Shorai-Do-Api
+  description: Api interface for [SDKM-Wiki Dev](https://shorai-do-kempo-dev.netlify.app/) or [SDKM-Wiki Live](https://shorai-do-kempo-app.netlify.app)
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+  - url: https://shorai-do-api.herokuapp.com
+
+tags:
+  - name: auth
+    description: Everything about authentication
+  - name: user
+    description: Access to user interaction
+
+paths:
+  /login:
+    post:
+      tags:
+        - auth
+      summary: Authentication
+      description: User-Authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+        required: true
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Error
+  /refreshtoken:
+    post:
+      tags:
+        - auth
+      summary: Refresh Token
+      description: create refreshed auth-token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RefreshTokenRequest"
+        required: true
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RefreshTokenResponse"
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Error
+  /logout:
+    delete:
+      tags:
+        - auth
+      summary: Logout
+      description: invalidate access token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RefreshTokenRequest"
+        required: true
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RefreshTokenResponse"
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Error
+
+  /user:
+    get:
+      tags:
+        - user
+      summary: number of users
+      description: get number of users
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Error
+  /user/{id}:
+    get:
+      tags:
+        - user
+      summary: get user by id (WIP)
+      description: get user by id
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id of the user to get
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserByIdResponse"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Error
+
+components:
+  schemas:
+    LoginRequest:
+      required:
+        - nickname
+        - password
+      type: object
+      properties:
+        nickname:
+          type: string
+          example: testuser
+        password:
+          type: string
+          example: 123456
+    LoginResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          example: eyJhbGciOiJIUzI1
+        refreshToken:
+          type: string
+          example: eyJhbGciOiJIUzI
+    RefreshTokenRequest:
+      required:
+        - token
+      type: object
+      properties:
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIs
+    RefreshTokenResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          example: eyJhbGciOiJIUzI1
+    UserResponse:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 19
+    UserByIdResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 1
+        nickname:
+          type: string
+          example: Bob
+        email:
+          type: string
+          example: test@web.de
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    api_key:
+      type: apiKey
+      name: api-key
+      in: header
