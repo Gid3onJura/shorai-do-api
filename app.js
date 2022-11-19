@@ -7,7 +7,23 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const BASE_URL = process.env.BASE_URL || 'http://localhost';
 
-app.use(cors());
+//app.use(cors());
+app.use((request, response, next) => {
+    response.header("Access-Control-Allow-Origin", "*")
+    response.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested, Content-Type, Accept Authorization"
+    )
+    if (request.method === "OPTIONS") {
+        response.header(
+            "Access-Control-Allow-Methods",
+            "POST, PUT, PATCH, GET, DELETE"
+        )
+        return response.status(200).json({})
+    }
+    next()
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
