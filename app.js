@@ -33,8 +33,11 @@ app.use(resolveApiKey);
 
 app.listen(PORT, () => console.log(`it's alive on ${BASE_URL}:${PORT}`));
 
+// test routes
+app.use('/', require('./routes/test'));
+
 // user routes
 app.use('/user', require('./routes/users'));
 
-// root routes
+// auth routes
 app.use('/', require('./routes/auth'));

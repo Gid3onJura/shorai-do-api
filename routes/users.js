@@ -3,7 +3,6 @@ require('dotenv').config();
 const md5 = require('md5');
 const router = express.Router();
 
-const db = require('../db/index');
 const userController = require('../db/controller/users');
 const schemas = require('../validation/schemas');
 const validation = require('../validation/validation');
