@@ -1,11 +1,13 @@
-const express = require('express');
-const cors = require('cors');
-require('dotenv').config();
-const { resolveApiKey } = require('./middleware/resolveApiKey');
+const fs = require("fs");
+const https = require("https");
+const express = require("express");
+const cors = require("cors");
+require("dotenv").config();
+const { resolveApiKey } = require("./middleware/resolveApiKey");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const BASE_URL = process.env.BASE_URL || 'http://localhost';
+const BASE_URL = process.env.BASE_URL || "http://localhost";
 
 app.use(cors());
 
@@ -16,13 +18,24 @@ app.use(resolveApiKey);
 
 //const mockUser = require('./mock/user.json');
 
-app.listen(PORT, () => console.log(`it's alive on ${BASE_URL}:${PORT}`));
+//app.listen(PORT, () => console.log(`it's alive on ${BASE_URL}:${PORT}`));
+https
+  .createServer(
+    {
+      key: fs.readFileSync("server.key"),
+      cert: fs.readFileSync("server.cert"),
+    },
+    app
+  )
+  .listen(PORT, () => {
+    console.log(`it's alive on ${BASE_URL}:${PORT}`);
+  });
 
 // test routes
-app.use('/', require('./routes/test'));
+app.use("/", require("./routes/test"));
 
 // user routes
-app.use('/user', require('./routes/users'));
+app.use("/user", require("./routes/users"));
 
 // auth routes
-app.use('/', require('./routes/auth'));
+app.use("/", require("./routes/auth"));
