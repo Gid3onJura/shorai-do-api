@@ -14,6 +14,9 @@ const User = db.define("users", {
   password: {
     type: Sequelize.STRING,
   },
+  activated: {
+    type: Sequelize.BOOLEAN,
+  },
 });
 
 module.exports = User;

@@ -24,17 +24,23 @@ router.get("/", authenticateToken, async (request, response) => {
 router.post("/", validation(schemas.createUser, "body"), async (request, response) => {
   const requestBody = request.body;
 
-  const userData = {
+  let userData = {
     nickname: requestBody.nickname,
     password: md5(requestBody.password),
   };
 
   const nicknameExists = await userController.nicknameExists(userData.nickname);
+  if (nicknameExists && nicknameExists.status > 201) {
+    return response.status(500).send({});
+  }
   if (nicknameExists) {
     return response.status(400).send({
       message: "user already exists",
     });
   }
+
+  // for dev
+  process.env.CODE_ENVIRONMENT === "LOCAL" ? (userData.activated = true) : null;
 
   const userAdded = await userController.createUser(userData);
   if (userAdded) {

@@ -26,7 +26,10 @@ module.exports = {
       }
     } catch (error) {
       console.log(error);
-      return true;
+      return {
+        status: 500,
+        message: "database error",
+      };
     }
   },
   createUser: async function (data) {
