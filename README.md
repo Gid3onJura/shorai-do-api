@@ -17,5 +17,14 @@ REST-Api for Shorai-Do-App's
 
 # Self-signed Certifcate
 
-- "openssl req -nodes -new -x509 -keyout server.key -out server.cert" create a self-sigend certificate
-- via Postman: goto https://stackoverflow.com/questions/57424532/postman-error-self-signed-certificate-in-certificate-chain and set up your postman for the created certificate
+```
+> openssl req -x509 -newkey rsa:2048 -keyout keytmp.pem -out cert.pem -days 365
+```
+
+```
+> openssl rsa -in keytmp.pem -out key.pem
+```
+
+```
+> openssl req -nodes -new -x509 -keyout server.key -out server.cert
+```
