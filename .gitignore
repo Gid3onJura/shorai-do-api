@@ -3,3 +3,4 @@ node_modules
 *.cert
 *.key
 *.pem
+san.config

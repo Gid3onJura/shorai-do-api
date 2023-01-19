@@ -11,9 +11,15 @@ const BASE_URL = process.env.BASE_URL || "http://localhost"
 
 app.use(
   cors({
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: [
+      "Access-Control-Allow-Headers",
+      "Access-Control-Allow-Methods",
+      "Access-Control-Allow-Origin",
+      "Content-Type",
+      "Authorization",
+    ],
     origin: ["*"],
-    methods: ["GET", "PUT", "POST", "DELETE"],
+    methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
     preflightContinue: false,
     credentials: true,
   })
@@ -25,22 +31,29 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(resolveApiKey)
 
+// set header to all responses
+app.use(function (request, response, next) {
+  response.setHeader("Content-Type", "application/json")
+  response.setHeader("Access-Control-Allow-Origin", ["*"])
+  response.setHeader("Access-Control-Allow-Methods", ["GET", "PUT", "POST", "DELETE", "OPTIONS"])
+  next()
+})
+
 //const mockUser = require('./mock/user.json');
 
-app.listen(PORT, () => console.log(`it's alive on ${BASE_URL}:${PORT}`))
-/*
+//app.listen(PORT, () => console.log(`it's alive on ${BASE_URL}:${PORT}`))
+
 https
   .createServer(
     {
-      key: fs.readFileSync("./security/server.key"),
-      cert: fs.readFileSync("./security/server.cert"),
+      key: fs.readFileSync("./security/key.pem"),
+      cert: fs.readFileSync("./security/cert.pem"),
     },
     app
   )
   .listen(PORT, () => {
     console.log(`it's alive on ${BASE_URL}:${PORT}`)
   })
-  */
 
 // test routes
 app.use("/", require("./routes/test"))
