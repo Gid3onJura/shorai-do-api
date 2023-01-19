@@ -9,7 +9,16 @@ const app = express()
 const PORT = process.env.PORT || 3000
 const BASE_URL = process.env.BASE_URL || "http://localhost"
 
-app.use(cors())
+app.use(
+  cors({
+    allowedHeaders: ["Content-Type", "Authorization"],
+    origin: ["*"],
+    methods: ["GET", "PUT", "POST", "DELETE"],
+    preflightContinue: false,
+    credentials: true,
+  })
+)
+//app.use(cors())
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -25,7 +34,8 @@ app.use(function (request, response, next) {
 
 //const mockUser = require('./mock/user.json');
 
-//app.listen(PORT, () => console.log(`it's alive on ${BASE_URL}:${PORT}`))
+app.listen(PORT, () => console.log(`it's alive on ${BASE_URL}:${PORT}`))
+/*
 https
   .createServer(
     {
@@ -37,6 +47,7 @@ https
   .listen(PORT, () => {
     console.log(`it's alive on ${BASE_URL}:${PORT}`)
   })
+  */
 
 // test routes
 app.use("/", require("./routes/test"))
