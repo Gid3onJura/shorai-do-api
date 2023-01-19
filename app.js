@@ -25,13 +25,6 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(resolveApiKey)
 
-// set header to all responses
-app.use(function (request, response, next) {
-  response.setHeader("Content-Type", "application/json")
-  response.setHeader("Access-Control-Allow-Origin", ["*"])
-  next()
-})
-
 //const mockUser = require('./mock/user.json');
 
 app.listen(PORT, () => console.log(`it's alive on ${BASE_URL}:${PORT}`))
