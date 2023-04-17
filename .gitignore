@@ -1,2 +1,6 @@
 node_modules
 *.env
+*.cert
+*.key
+*.pem
+san.config
