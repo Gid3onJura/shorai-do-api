@@ -32,19 +32,19 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(resolveApiKey)
 
-/*
 // set header to all responses
 app.use(function (request, response, next) {
   response.setHeader("Content-Type", "application/json")
   response.setHeader("Access-Control-Allow-Origin", ["*"])
   response.setHeader("Access-Control-Allow-Methods", ["GET", "PUT", "POST", "DELETE", "OPTIONS"])
   next()
-})*/
+})
 
 //const mockUser = require('./mock/user.json');
 
-//app.listen(PORT, () => console.log(`it's alive on ${BASE_URL}:${PORT}`))
+app.listen(PORT, () => console.log(`it's alive on ${BASE_URL}:${PORT}`))
 
+/*
 https
   .createServer(
     {
@@ -56,7 +56,7 @@ https
   .listen(PORT, () => {
     console.log(`it's alive on ${BASE_URL}:${PORT}`)
   })
-
+*/
 // test routes
 app.use("/", require("./routes/test"))
 
