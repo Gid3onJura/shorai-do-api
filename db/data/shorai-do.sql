@@ -65,6 +65,7 @@ CREATE TABLE `users` (
   `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nickname` (`nickname`),
+  UNIQUE KEY `email` (`email`),
   KEY `user_FK` (`dojo`),
   FULLTEXT KEY `user_nickname_IDX` (`nickname`),
   CONSTRAINT `user_FK` FOREIGN KEY (`dojo`) REFERENCES `dojos` (`id`)
