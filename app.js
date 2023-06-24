@@ -57,11 +57,12 @@ https
     console.log(`it's alive on ${BASE_URL}:${PORT}`)
   })
 */
-// test routes
-app.use("/", require("./routes/test"))
 
 // user routes
 app.use("/user", require("./routes/users"))
 
 // auth routes
 app.use("/", require("./routes/auth"))
+
+// test routes
+app.use("/", require("./routes/test"))
