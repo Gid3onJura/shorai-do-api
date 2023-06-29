@@ -1,16 +1,39 @@
 const md5 = require("md5")
 const User = require("../models/User")
+const db = require("../../db/index")
 
 module.exports = {
   findAllUser: async function () {
     try {
-      const users = await User.findAll({
-        attributes: ["id", "nickname", "email", "dojo", "password"],
-      }).catch((error) => [])
+      const [users, metadata] = await db.query(
+        "SELECT users.id, users.nickname, rank, color, graduatedOn, birth, activated FROM users LEFT JOIN ranks ON users.id = ranks.user;"
+      )
+      // const users = await User.findAll({
+      //   attributes: ["id", "nickname", "email", "dojo", "birth"],
+      // }).catch((error) => [])
       return users
     } catch (error) {
       console.log(error)
       return []
+    }
+  },
+  findUserById: async function (id) {
+    try {
+      const user = await User.findOne({
+        attributes: ["id", "nickname", "email", "dojo", "activated", "birth"],
+        where: { id: id },
+      })
+      if (user) {
+        return user
+      } else {
+        return false
+      }
+    } catch (error) {
+      console.log(error)
+      return {
+        status: 500,
+        message: "database error",
+      }
     }
   },
   nicknameExists: async function (nickname) {

@@ -15,13 +15,16 @@ CREATE TABLE dojos (
 
 DROP TABLE IF EXISTS `ranks`;
 CREATE TABLE `ranks` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `rank` tinyint(3) unsigned NOT NULL,
   `category` varchar(10) NOT NULL,
   `color` varchar(10) NOT NULL,
   `user` smallint(5) unsigned NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   `graduatedOn` date NOT NULL,
-  PRIMARY KEY (`rank`,`category`,`user`)
+  `updatedAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user` (`user`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -38,6 +41,7 @@ CREATE TABLE `users` (
   `createdAt` timestamp NOT NULL DEFAULT current_timestamp(),
   `activated` tinyint(1) NOT NULL DEFAULT 0,
   `updatedAt` datetime DEFAULT NULL,
+  `birth` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nickname` (`nickname`),
   KEY `user_FK` (`dojo`),

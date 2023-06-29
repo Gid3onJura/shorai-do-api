@@ -11,13 +11,18 @@ const { authenticateToken } = require("../middleware/authenticateToken")
 router.get("/", authenticateToken, async (request, response) => {
   const findUser = await userController.findAllUser()
   if (findUser) {
-    return response
-      .send({
-        count: findUser.length,
-      })
-      .status(200)
+    return response.send(findUser).status(200)
   } else {
     return response.sendStatus(500)
+  }
+})
+
+router.get("/:id", authenticateToken, async (request, response) => {
+  const findUser = await userController.findUserById(request.params.id)
+  if (findUser) {
+    return response.send(findUser).status(200)
+  } else {
+    return response.sendStatus(404)
   }
 })
 
@@ -28,6 +33,7 @@ router.post("/", validation(schemas.createUser, "body"), async (request, respons
     nickname: requestBody.nickname,
     password: md5(requestBody.password),
     email: requestBody.email,
+    birth: requestBody.birth,
   }
 
   const nicknameExists = await userController.nicknameExists(userData.nickname)
@@ -50,8 +56,8 @@ router.post("/", validation(schemas.createUser, "body"), async (request, respons
     })
   }
 
-  // for dev
-  process.env.CODE_ENVIRONMENT === "LOCAL" ? (userData.activated = true) : null
+  // user is not active
+  userData.activated = false
 
   const userAdded = await userController.createUser(userData)
   if (userAdded) {

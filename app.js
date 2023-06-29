@@ -44,25 +44,14 @@ app.use(function (request, response, next) {
 
 app.listen(PORT, () => console.log(`it's alive on ${BASE_URL}:${PORT}`))
 
-/*
-https
-  .createServer(
-    {
-      key: fs.readFileSync("./security/key.pem"),
-      cert: fs.readFileSync("./security/cert.pem"),
-    },
-    app
-  )
-  .listen(PORT, () => {
-    console.log(`it's alive on ${BASE_URL}:${PORT}`)
-  })
-*/
+// auth routes
+app.use("/", require("./routes/auth"))
 
 // user routes
 app.use("/user", require("./routes/users"))
 
-// auth routes
-app.use("/", require("./routes/auth"))
+// rank routes
+app.use("/rank", require("./routes/ranks"))
 
 // test routes
 app.use("/", require("./routes/test"))

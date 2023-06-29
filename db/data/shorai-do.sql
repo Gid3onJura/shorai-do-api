@@ -37,13 +37,16 @@ DROP TABLE IF EXISTS `ranks`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ranks` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `rank` tinyint(3) unsigned NOT NULL,
   `category` varchar(10) NOT NULL,
   `color` varchar(10) NOT NULL,
   `user` smallint(5) unsigned NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-  `graduatedOn` datetime NOT NULL,
-  PRIMARY KEY (`rank`,`category`,`user`)
+  `graduatedOn` date NOT NULL,
+  `updatedAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user` (`user`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -63,6 +66,7 @@ CREATE TABLE `users` (
   `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   `activated` tinyint(1) NOT NULL DEFAULT 0,
   `updatedAt` datetime DEFAULT NULL,
+  `birth` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nickname` (`nickname`),
   UNIQUE KEY `email` (`email`),

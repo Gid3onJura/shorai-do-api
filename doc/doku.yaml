@@ -16,6 +16,7 @@ tags:
     description: Access to user interaction
 
 paths:
+  # auth
   /login:
     post:
       tags:
@@ -86,12 +87,13 @@ paths:
         "500":
           description: Internal Error
 
+  # user
   /user:
     get:
       tags:
         - user
-      summary: number of users
-      description: get number of users
+      summary: get all users
+      description: get list of users
       security:
         - bearerAuth: []
       responses:
@@ -107,11 +109,37 @@ paths:
           description: Forbidden
         "500":
           description: Internal Error
-  /user/{id}:
+    post:
+      tags:
+        - user
+      summary: register user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterUserRequest"
+        required: true
+      responses:
+        "201":
+          description: Success
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegisterUser400Response"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Error
+
+  /user/:id:
     get:
       tags:
         - user
-      summary: get user by id (WIP)
+      summary: get user by id
       description: get user by id
       security:
         - bearerAuth: []
@@ -136,8 +164,68 @@ paths:
         "500":
           description: Internal Error
 
+  # rank
+  /rank:
+    post:
+      tags:
+        - rank
+      summary: register rank
+      description: set belt color and rank
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRankRequest"
+        required: true
+      responses:
+        "201":
+          description: Success
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestValidation"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Error
+    patch:
+      tags:
+        - rank
+      summary: update rank
+      description: update rank and graduated when
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRankRequest"
+        required: true
+      responses:
+        "201":
+          description: Success
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestValidation"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Error
 components:
   schemas:
+    BadRequestValidation:
+      type: object
+      properties:
+        error:
+          type: string
+          example: '"user" must be a number'
     LoginRequest:
       required:
         - nickname
@@ -174,11 +262,28 @@ components:
           type: string
           example: eyJhbGciOiJIUzI1
     UserResponse:
-      type: object
-      properties:
-        count:
-          type: integer
-          example: 19
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 42
+          name:
+            type: string
+            example: "kohai1"
+          kyu:
+            type: integer
+            example: 4
+          graduation_date:
+            type: string
+            example: "2023-08-04"
+          birth:
+            type: string
+            example: "2023-08-04"
+          active:
+            type: boolean
+            example: true
     UserByIdResponse:
       type: object
       properties:
@@ -191,7 +296,62 @@ components:
         email:
           type: string
           example: test@web.de
-
+        dojo:
+          type: integer
+          example: 1
+        activated:
+          type: boolean
+          example: true
+        birth::
+          type: string
+          example: "1992-04-03"
+    RegisterUserRequest:
+      required:
+        - nickname
+        - password
+      type: object
+      properties:
+        nickname:
+          type: string
+          example: admin
+        email:
+          type: string
+          example: admin@web.de
+        password:
+          type: string
+          example: 123456
+        birth:
+          type: string
+          example: "1992-04-03"
+    RegisterUser400Response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "user already exists"
+    RegisterRankRequest:
+      required:
+        - rank
+        - category
+        - color
+        - user
+      type: object
+      properties:
+        rank:
+          type: string
+          example: "6"
+        category:
+          type: string
+          example: "kyu"
+        color:
+          type: string
+          example: "white"
+        user:
+          type: integer
+          example: 42
+        graduatedon:
+          type: string
+          example: "1992-04-03"
   securitySchemes:
     bearerAuth:
       type: http

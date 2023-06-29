@@ -1,23 +1,20 @@
 const Sequelize = require("sequelize")
 const db = require("../index")
 
-const User = db.define("users", {
-  nickname: {
-    type: Sequelize.STRING,
-  },
-  email: {
-    type: Sequelize.STRING,
-  },
-  dojo: {
+const User = db.define("ranks", {
+  rank: {
     type: Sequelize.INTEGER,
   },
-  password: {
+  category: {
     type: Sequelize.STRING,
   },
-  activated: {
-    type: Sequelize.BOOLEAN,
+  color: {
+    type: Sequelize.STRING,
   },
-  birth: {
+  user: {
+    type: Sequelize.INTEGER,
+  },
+  graduatedOn: {
     type: Sequelize.DATE,
   },
 })
