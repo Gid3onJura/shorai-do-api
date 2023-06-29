@@ -14,6 +14,8 @@ tags:
     description: Everything about authentication
   - name: user
     description: Access to user interaction
+  - name: rank
+    description: Access to rank interaction
 
 paths:
   # auth
