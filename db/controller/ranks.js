@@ -12,12 +12,15 @@ module.exports = {
   },
   updateRank: async function (data) {
     try {
-      const updatedRank = await Rank.update(data, {
+      const affectedRows = await Rank.update(data, {
         where: {
           user: data.user,
         },
       })
-      return true
+      if (affectedRows && affectedRows[0] >= 1) {
+        return true
+      }
+      return false
     } catch (error) {
       console.log(error)
       return false

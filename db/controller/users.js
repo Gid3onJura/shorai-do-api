@@ -11,7 +11,11 @@ module.exports = {
       // const users = await User.findAll({
       //   attributes: ["id", "nickname", "email", "dojo", "birth"],
       // }).catch((error) => [])
-      return users
+      if (users && users.length > 0) {
+        return users
+      } else {
+        return false
+      }
     } catch (error) {
       console.log(error)
       return []
@@ -25,6 +29,24 @@ module.exports = {
       })
       if (user) {
         return user
+      } else {
+        return false
+      }
+    } catch (error) {
+      console.log(error)
+      return {
+        status: 500,
+        message: "database error",
+      }
+    }
+  },
+  deleteUserById: async function (id) {
+    try {
+      const user = await User.destroy({
+        where: { id: id },
+      })
+      if (user) {
+        return true
       } else {
         return false
       }

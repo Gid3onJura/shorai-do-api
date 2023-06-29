@@ -13,7 +13,7 @@ router.get("/", authenticateToken, async (request, response) => {
   if (findUser) {
     return response.send(findUser).status(200)
   } else {
-    return response.sendStatus(500)
+    return response.status(404).send()
   }
 })
 
@@ -22,7 +22,16 @@ router.get("/:id", authenticateToken, async (request, response) => {
   if (findUser) {
     return response.send(findUser).status(200)
   } else {
-    return response.sendStatus(404)
+    return response.status(404).send()
+  }
+})
+
+router.delete("/:id", authenticateToken, async (request, response) => {
+  const deletedUser = await userController.deleteUserById(request.params.id)
+  if (deletedUser) {
+    return response.status(200).send()
+  } else {
+    return response.status(404).send()
   }
 })
 
@@ -38,7 +47,7 @@ router.post("/", validation(schemas.createUser, "body"), async (request, respons
 
   const nicknameExists = await userController.nicknameExists(userData.nickname)
   if (nicknameExists && nicknameExists.status > 201) {
-    return response.status(500).send({})
+    return response.status(500).send()
   }
   if (nicknameExists) {
     return response.status(400).send({
@@ -48,7 +57,7 @@ router.post("/", validation(schemas.createUser, "body"), async (request, respons
 
   const emailExists = await userController.emailExists(userData.email)
   if (emailExists && emailExists.status > 201) {
-    return response.status(500).send({})
+    return response.status(500).send()
   }
   if (emailExists) {
     return response.status(400).send({

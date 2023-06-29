@@ -163,6 +163,29 @@ paths:
           description: Forbidden
         "500":
           description: Internal Error
+    delete:
+      tags:
+        - user
+      summary: delete user by id
+      description: delete user by id
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id of the user to delete
+      responses:
+        "200":
+          description: Success
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Error
 
   # rank
   /rank:
@@ -171,6 +194,8 @@ paths:
         - rank
       summary: register rank
       description: set belt color and rank
+      security:
+        - bearerAuth: []
       requestBody:
         content:
           application/json:
@@ -197,6 +222,8 @@ paths:
         - rank
       summary: update rank
       description: update rank and graduated when
+      security:
+        - bearerAuth: []
       requestBody:
         content:
           application/json:

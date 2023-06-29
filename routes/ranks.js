@@ -46,7 +46,7 @@ router.patch("/", authenticateToken, validation(schemas.createRank, "body"), asy
   if (rankUpdated) {
     return response.status(200).send()
   } else {
-    return response.status(500).send({
+    return response.status(404).send({
       message: "rank not updated",
     })
   }
