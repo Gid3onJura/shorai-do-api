@@ -32,7 +32,7 @@ const User = db.define("users", {
   color: {
     type: Sequelize.STRING,
   },
-  graduatedOn: {
+  graduatedon: {
     type: Sequelize.DATE,
   },
 })

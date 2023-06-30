@@ -114,7 +114,7 @@ router.patch("/", authenticateToken, validation(schemas.updateUser, "body"), asy
     rank: requestBody.rank,
     category: requestBody.category,
     color: requestBody.color,
-    graduatedOn: requestBody.graduatedon,
+    graduatedon: requestBody.graduatedon,
     user: requestBody.user,
     activated: requestBody.activated,
   }

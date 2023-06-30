@@ -17,7 +17,7 @@ module.exports = {
           "rank",
           "category",
           "color",
-          "graduatedOn",
+          "graduatedon",
         ],
       }).catch((error) => [])
       if (users && users.length > 0) {
@@ -44,7 +44,7 @@ module.exports = {
           "rank",
           "category",
           "color",
-          "graduatedOn",
+          "graduatedon",
         ],
         where: { id: id },
       })
