@@ -5,6 +5,9 @@ const User = db.define("users", {
   nickname: {
     type: Sequelize.STRING,
   },
+  name: {
+    type: Sequelize.STRING,
+  },
   email: {
     type: Sequelize.STRING,
   },
@@ -18,6 +21,18 @@ const User = db.define("users", {
     type: Sequelize.BOOLEAN,
   },
   birth: {
+    type: Sequelize.DATE,
+  },
+  rank: {
+    type: Sequelize.INTEGER,
+  },
+  category: {
+    type: Sequelize.STRING,
+  },
+  color: {
+    type: Sequelize.STRING,
+  },
+  graduatedOn: {
     type: Sequelize.DATE,
   },
 })

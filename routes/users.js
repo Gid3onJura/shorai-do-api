@@ -39,30 +39,57 @@ router.post("/", validation(schemas.createUser, "body"), async (request, respons
   const requestBody = request.body
 
   let userData = {
+    name: requestBody.name,
     nickname: requestBody.nickname,
-    password: md5(requestBody.password),
     email: requestBody.email,
     birth: requestBody.birth,
+    rank: requestBody.rank,
+    category: requestBody.category,
+    color: requestBody.color,
+    graduatedon: requestBody.graduatedon,
   }
 
-  const nicknameExists = await userController.nicknameExists(userData.nickname)
-  if (nicknameExists && nicknameExists.status > 201) {
-    return response.status(500).send()
-  }
-  if (nicknameExists) {
-    return response.status(400).send({
-      message: "user already exists",
-    })
+  if (requestBody.password) {
+    userData.password = md5(requestBody.password)
   }
 
-  const emailExists = await userController.emailExists(userData.email)
-  if (emailExists && emailExists.status > 201) {
-    return response.status(500).send()
+  // check nickname
+  if (userData.nickname) {
+    const nicknameExists = await userController.nicknameExists(userData.nickname)
+    if (nicknameExists && nicknameExists.status > 201) {
+      return response.status(500).send({})
+    }
+    if (nicknameExists) {
+      return response.status(400).send({
+        message: "user already exists",
+      })
+    }
   }
-  if (emailExists) {
-    return response.status(400).send({
-      message: "user already exists",
-    })
+
+  // check name
+  if (userData.name) {
+    const nameExists = await userController.nameExists(userData.name)
+    if (nameExists && nameExists.status > 201) {
+      return response.status(500).send({})
+    }
+    if (nameExists) {
+      return response.status(400).send({
+        message: "name already exists",
+      })
+    }
+  }
+
+  // check email
+  if (userData.email) {
+    const emailExists = await userController.emailExists(userData.email)
+    if (emailExists && emailExists.status > 201) {
+      return response.status(500).send({})
+    }
+    if (emailExists) {
+      return response.status(400).send({
+        message: "email already exists",
+      })
+    }
   }
 
   // user is not active
@@ -70,10 +97,80 @@ router.post("/", validation(schemas.createUser, "body"), async (request, respons
 
   const userAdded = await userController.createUser(userData)
   if (userAdded) {
-    return response.status(201).send()
+    return response.status(201).send({})
   } else {
     return response.status(500).send({
       message: "user not created",
+    })
+  }
+})
+
+router.patch("/", validation(schemas.updateUser, "body"), async (request, response) => {
+  const requestBody = request.body
+
+  let userData = {
+    name: requestBody.name,
+    nickname: requestBody.nickname,
+    email: requestBody.email,
+    birth: requestBody.birth,
+    rank: requestBody.rank,
+    category: requestBody.category,
+    color: requestBody.color,
+    graduatedOn: requestBody.graduatedon,
+    user: requestBody.user,
+    activated: requestBody.activated,
+  }
+
+  if (requestBody.password) {
+    userData.password = md5(requestBody.password)
+  }
+
+  // check nickname
+  if (userData.nickname) {
+    const nicknameExists = await userController.nicknameExists(userData.nickname)
+    if (nicknameExists && nicknameExists.status > 201) {
+      return response.status(500).send({})
+    }
+    if (nicknameExists) {
+      return response.status(400).send({
+        message: "user already exists",
+      })
+    }
+  }
+
+  // check name
+  if (userData.name) {
+    const nameExists = await userController.nameExists(userData.name)
+    if (nameExists && nameExists.status > 201) {
+      return response.status(500).send({})
+    }
+    if (nameExists) {
+      return response.status(400).send({
+        message: "name already exists",
+      })
+    }
+  }
+
+  // check email
+  if (userData.email) {
+    const emailExists = await userController.emailExists(userData.email)
+    if (emailExists && emailExists.status > 201) {
+      return response.status(500).send({})
+    }
+    if (emailExists) {
+      return response.status(400).send({
+        message: "email already exists",
+      })
+    }
+  }
+
+  const userUpdated = await userController.updateUser(userData)
+
+  if (userUpdated) {
+    return response.status(200).send()
+  } else {
+    return response.status(404).send({
+      message: "user not updated",
     })
   }
 })

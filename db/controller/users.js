@@ -5,12 +5,21 @@ const db = require("../../db/index")
 module.exports = {
   findAllUser: async function () {
     try {
-      const [users, metadata] = await db.query(
-        "SELECT users.id, users.nickname, rank, color, graduatedOn, birth, activated FROM users LEFT JOIN ranks ON users.id = ranks.user;"
-      )
-      // const users = await User.findAll({
-      //   attributes: ["id", "nickname", "email", "dojo", "birth"],
-      // }).catch((error) => [])
+      const users = await User.findAll({
+        attributes: [
+          "id",
+          "nickname",
+          "name",
+          "email",
+          "dojo",
+          "activated",
+          "birth",
+          "rank",
+          "category",
+          "color",
+          "graduatedOn",
+        ],
+      }).catch((error) => [])
       if (users && users.length > 0) {
         return users
       } else {
@@ -24,7 +33,19 @@ module.exports = {
   findUserById: async function (id) {
     try {
       const user = await User.findOne({
-        attributes: ["id", "nickname", "email", "dojo", "activated", "birth"],
+        attributes: [
+          "id",
+          "nickname",
+          "name",
+          "email",
+          "dojo",
+          "activated",
+          "birth",
+          "rank",
+          "category",
+          "color",
+          "graduatedOn",
+        ],
         where: { id: id },
       })
       if (user) {
@@ -44,6 +65,25 @@ module.exports = {
     try {
       const user = await User.destroy({
         where: { id: id },
+      })
+      if (user) {
+        return true
+      } else {
+        return false
+      }
+    } catch (error) {
+      console.log(error)
+      return {
+        status: 500,
+        message: "database error",
+      }
+    }
+  },
+  nameExists: async function (name) {
+    try {
+      const user = await User.findOne({
+        attributes: ["id"],
+        where: { name: name },
       })
       if (user) {
         return true
@@ -99,7 +139,27 @@ module.exports = {
   createUser: async function (data) {
     try {
       const newUser = await User.create(data)
-      return true
+      if (newUser) {
+        return true
+      } else {
+        return false
+      }
+    } catch (error) {
+      console.log(error)
+      return false
+    }
+  },
+  updateUser: async function (data) {
+    try {
+      const affectedRows = await User.update(data, {
+        where: {
+          id: data.user,
+        },
+      })
+      if (affectedRows && affectedRows[0] >= 1) {
+        return true
+      }
+      return false
     } catch (error) {
       console.log(error)
       return false

@@ -25,7 +25,7 @@ router.post("/login", validation(schemas.loginUser, "body"), async (request, res
       return response.send({ accessToken, refreshToken })
     }
 
-    return response.status(403).send()
+    return response.status(403).send({})
   } catch (error) {
     console.log(error)
     return response.status(500).send({

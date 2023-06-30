@@ -38,7 +38,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nickname\": \"Admin\",\r\n    \"password\": \"123456\"\r\n}",
+							"raw": "{\r\n    \"nickname\": \"sensei\",\r\n    \"password\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -200,7 +200,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nickname\": \"Admin2\",\r\n    \"email\": \"admin2@web.de\",\r\n    \"password\": \"123456\",\r\n    \"birth\": \"1992-04-03\"\r\n}",
+							"raw": "{\r\n    \"name\": \"testuser\",\r\n    \"password\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -242,104 +242,21 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}:{{port}}/user/42",
+							"raw": "{{baseUrl}}:{{port}}/user/5",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"port": "{{port}}",
 							"path": [
 								"user",
-								"42"
+								"5"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "delete user (by id)",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "api-key",
-								"value": "{{apiKey}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}:{{port}}/user/42",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"user",
-								"42"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "ranks",
-			"item": [
-				{
-					"name": "rank",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "api-key",
-								"value": "{{apiKey}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"rank\": \"4\",\r\n    \"category\": \"kyu\",\r\n    \"color\": \"orange\",\r\n    \"user\": 47,\r\n    \"graduatedon\": \"2023-06-30\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}:{{port}}/rank",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"rank"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update rank",
+					"name": "update user",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -361,7 +278,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"rank\": \"1\",\r\n    \"category\": \"kyu\",\r\n    \"color\": \"white\",\r\n    \"user\": 47,\r\n    \"graduatedon\": \"2023-06-28\"\r\n}",
+							"raw": "{\r\n    \"user\": 8,\r\n    \"rank\": \"3\",\r\n    \"category\": \"kyu\",\r\n    \"color\": \"blau\",\r\n    \"graduatedon\": \"2023-06-28\",\r\n    \"activated\": true,\r\n    \"password\": \"33433434\",\r\n    \"nickname\": \"grandmaster\",\r\n    \"email\": \"rewre@sadsa.de\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -369,19 +286,54 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}:{{port}}/rank",
+							"raw": "{{baseUrl}}:{{port}}/user",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"port": "{{port}}",
 							"path": [
-								"rank"
+								"user"
 							]
 						}
 					},
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "delete user (by id)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "api-key",
+						"value": "{{apiKey}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}:{{port}}/user/5",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"user",
+						"5"
+					]
+				}
+			},
+			"response": []
 		},
 		{
 			"name": "test - api alive",

@@ -50,8 +50,5 @@ app.use("/", require("./routes/auth"))
 // user routes
 app.use("/user", require("./routes/users"))
 
-// rank routes
-app.use("/rank", require("./routes/ranks"))
-
 // test routes
 app.use("/", require("./routes/test"))
