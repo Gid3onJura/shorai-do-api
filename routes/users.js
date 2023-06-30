@@ -47,6 +47,7 @@ router.post("/", validation(schemas.createUser, "body"), async (request, respons
     category: requestBody.category,
     color: requestBody.color,
     graduatedon: requestBody.graduatedon,
+    activated: requestBody.activated,
   }
 
   if (requestBody.password) {
@@ -91,9 +92,6 @@ router.post("/", validation(schemas.createUser, "body"), async (request, respons
       })
     }
   }
-
-  // user is not active
-  userData.activated = false
 
   const userAdded = await userController.createUser(userData)
   if (userAdded) {
