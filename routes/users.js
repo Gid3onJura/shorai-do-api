@@ -35,7 +35,7 @@ router.delete("/:id", authenticateToken, async (request, response) => {
   }
 })
 
-router.post("/", validation(schemas.createUser, "body"), async (request, response) => {
+router.post("/", authenticateToken, validation(schemas.createUser, "body"), async (request, response) => {
   const requestBody = request.body
 
   let userData = {
@@ -103,7 +103,7 @@ router.post("/", validation(schemas.createUser, "body"), async (request, respons
   }
 })
 
-router.patch("/", validation(schemas.updateUser, "body"), async (request, response) => {
+router.patch("/", authenticateToken, validation(schemas.updateUser, "body"), async (request, response) => {
   const requestBody = request.body
 
   let userData = {
