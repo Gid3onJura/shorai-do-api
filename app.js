@@ -20,7 +20,7 @@ app.use(
       "api-key",
     ],
     origin: "*",
-    methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
+    methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH"],
     preflightContinue: false,
     credentials: true,
   })
@@ -36,7 +36,7 @@ app.use(resolveApiKey)
 app.use(function (request, response, next) {
   response.setHeader("Content-Type", "application/json")
   response.setHeader("Access-Control-Allow-Origin", ["*"])
-  response.setHeader("Access-Control-Allow-Methods", ["GET", "PUT", "POST", "DELETE", "OPTIONS"])
+  response.setHeader("Access-Control-Allow-Methods", ["GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH"])
   next()
 })
 
