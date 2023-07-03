@@ -165,7 +165,7 @@ router.patch("/", authenticateToken, validation(schemas.updateUser, "body"), asy
   const userUpdated = await userController.updateUser(userData)
 
   if (userUpdated) {
-    return response.status(200).send()
+    return response.status(200).send({})
   } else {
     return response.status(404).send({
       message: "user not updated",
