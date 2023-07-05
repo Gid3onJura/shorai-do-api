@@ -35,5 +35,21 @@ const schemas = {
     user: Joi.number().required(),
     activated: Joi.boolean(),
   }),
+  createCalendarEvent: Joi.object().keys({
+    eventdate: Joi.date().required(),
+    eventcolor: Joi.string(),
+    eventtype: Joi.string(),
+    description: Joi.string().required(),
+    override: Joi.boolean(),
+    repeating: Joi.boolean(),
+  }),
+  updateCalendarEvent: Joi.object().keys({
+    event: Joi.number().required(),
+    eventdate: Joi.date(),
+    eventcolor: Joi.string(),
+    description: Joi.string(),
+    override: Joi.boolean(),
+    repeating: Joi.boolean(),
+  }),
 }
 module.exports = schemas

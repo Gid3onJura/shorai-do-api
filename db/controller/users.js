@@ -1,6 +1,5 @@
 const md5 = require("md5")
 const User = require("../models/User")
-const db = require("../../db/index")
 
 module.exports = {
   findAllUser: async function () {

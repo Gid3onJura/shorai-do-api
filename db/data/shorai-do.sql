@@ -82,17 +82,20 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping routines for database 'shorai-do'
---
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+--
+-- Table structure for table `calendar`
+-- 
+CREATE TABLE `events` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `eventdate` date NOT NULL DEFAULT curdate(),
+  `eventcolor` varchar(100) DEFAULT NULL,
+  `description` varchar(100) NOT NULL,
+  `override` tinyint(1) DEFAULT 0,
+  `createdat` datetime NOT NULL DEFAULT current_timestamp(),
+  `updatedat` datetime DEFAULT NULL,
+  `repeating` tinyint(1) DEFAULT 0,
+  `eventtype` varchar(100) NOT NULL DEFAULT 'training',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
--- Dump completed on 2022-10-31 17:13:09

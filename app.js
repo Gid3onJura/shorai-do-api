@@ -50,5 +50,8 @@ app.use("/", require("./routes/auth"))
 // user routes
 app.use("/user", require("./routes/users"))
 
+// event routes
+app.use("/event", require("./routes/events"))
+
 // test routes
 app.use("/", require("./routes/test"))
