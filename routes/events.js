@@ -52,7 +52,6 @@ router.patch("/", authenticateToken, validation(schemas.updateCalendarEvent, "bo
     override: requestBody.override,
     repeating: requestBody.repeating,
     repetitiontype: requestBody.repetitiontype,
-    week,
   }
 
   const eventUpdated = await eventsController.updateCalendarEvent(eventData)
