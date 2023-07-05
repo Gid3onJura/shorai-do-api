@@ -96,6 +96,7 @@ CREATE TABLE `events` (
   `updatedat` datetime DEFAULT NULL,
   `repeating` tinyint(1) DEFAULT 0,
   `eventtype` varchar(100) NOT NULL DEFAULT 'training',
+  `repetitiontype` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 

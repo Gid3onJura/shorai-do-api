@@ -17,6 +17,9 @@ const Calendar = db.define("events", {
   repeating: {
     type: Sequelize.BOOLEAN,
   },
+  repetitiontype: {
+    type: Sequelize.STRING,
+  },
   eventtype: {
     type: Sequelize.STRING,
   },

@@ -1,9 +1,33 @@
-const Calendar = require("../models/Event")
+const Event = require("../models/Event")
 
 module.exports = {
+  findAllEvents: async function (data) {
+    try {
+      const events = await Event.findAll({
+        attributes: [
+          "id",
+          "eventdate",
+          "eventcolor",
+          "eventtype",
+          "description",
+          "override",
+          "repeating",
+          "repetitiontype",
+        ],
+      }).catch((error) => [])
+      if (events && events.length > 0) {
+        return events
+      } else {
+        return false
+      }
+    } catch (error) {
+      console.log(error)
+      return []
+    }
+  },
   createCalendarEvent: async function (data) {
     try {
-      const newEvent = await Calendar.create(data)
+      const newEvent = await Event.create(data)
       if (newEvent) {
         return true
       } else {
@@ -16,7 +40,7 @@ module.exports = {
   },
   updateCalendarEvent: async function (data) {
     try {
-      const affectedRows = await Calendar.update(data, {
+      const affectedRows = await Event.update(data, {
         where: {
           id: data.event,
         },

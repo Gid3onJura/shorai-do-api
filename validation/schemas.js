@@ -42,6 +42,7 @@ const schemas = {
     description: Joi.string().required(),
     override: Joi.boolean(),
     repeating: Joi.boolean(),
+    repetitiontype: Joi.string(),
   }),
   updateCalendarEvent: Joi.object().keys({
     event: Joi.number().required(),
@@ -50,6 +51,7 @@ const schemas = {
     description: Joi.string(),
     override: Joi.boolean(),
     repeating: Joi.boolean(),
+    repetitiontype: Joi.string(),
   }),
 }
 module.exports = schemas
