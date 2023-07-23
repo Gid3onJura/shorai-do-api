@@ -33,12 +33,12 @@ app.use(express.urlencoded({ extended: true }))
 app.use(resolveApiKey)
 
 // set header to all responses
-// app.use(function (request, response, next) {
-//   response.setHeader("Content-Type", "application/json")
-//   response.setHeader("Access-Control-Allow-Origin", ["*"])
-//   response.setHeader("Access-Control-Allow-Methods", ["GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH"])
-//   next()
-// })
+app.use(function (request, response, next) {
+  response.setHeader("Content-Type", "application/json")
+  response.setHeader("Access-Control-Allow-Origin", ["*"])
+  response.setHeader("Access-Control-Allow-Methods", ["GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH"])
+  next()
+})
 
 //const mockUser = require('./mock/user.json');
 
