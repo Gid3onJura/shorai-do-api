@@ -4,12 +4,13 @@ const validation = (schema, property) => {
   return (request, response, next) => {
     const options = {
       abortEarly: false, // include all errors
-      allowUnknown: false, // ignore unknown props
-      stripUnknown: false, // remove unknown props
+      allowUnknown: true, // ignore unknown props
+      stripUnknown: true, // remove unknown props
     }
     const { error } = schema.validate(request[property], options)
     const valid = error == null
 
+    console.log(error)
     if (valid) {
       next()
     } else {

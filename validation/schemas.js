@@ -38,11 +38,11 @@ const schemas = {
   createCalendarEvent: Joi.object().keys({
     eventdate: Joi.date().required(),
     eventcolor: Joi.string(),
-    eventtype: Joi.string(),
+    eventtype: Joi.string().required(),
     description: Joi.string().required(),
     override: Joi.boolean(),
     repeating: Joi.boolean(),
-    repetitiontype: Joi.string(),
+    repetitiontype: Joi.string().allow(""),
   }),
   updateCalendarEvent: Joi.object().keys({
     event: Joi.number().required(),
