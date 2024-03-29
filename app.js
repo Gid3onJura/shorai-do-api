@@ -57,3 +57,6 @@ app.use("/event", require("./routes/events"))
 
 // test routes
 app.use("/", require("./routes/test"))
+
+// utility routes
+app.use("/utils", require("./routes/utils"))
