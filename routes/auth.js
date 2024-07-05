@@ -41,14 +41,16 @@ router.post("/refreshtoken", validation(schemas.refreshToken, "body"), async (re
   }
 
   if (!refreshTokenExists(refreshToken)) {
-    console.error("refreshToken exists error")
-    return response.status(403).send()
+    return response.status(403).send({
+      message: "refreshToken exists error",
+    })
   }
 
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, user) => {
     if (error) {
-      console.error("verify refreshToken error")
-      return response.status(403).send()
+      return response.status(403).send({
+        message: "verify refreshToken error",
+      })
     }
     const accessToken = generateAccessToken({
       id: user.id,
