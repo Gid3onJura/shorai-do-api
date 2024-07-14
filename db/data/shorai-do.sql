@@ -100,3 +100,13 @@ CREATE TABLE `events` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
+--
+-- Table structure for table `refreshTokens`
+--
+CREATE TABLE `refreshTokens` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `token` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
+  `updatedAt` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
