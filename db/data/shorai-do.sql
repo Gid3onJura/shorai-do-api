@@ -105,7 +105,7 @@ CREATE TABLE `events` (
 --
 CREATE TABLE `refreshTokens` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `token` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `token` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NOT NULL,
   `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
   `updatedAt` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
