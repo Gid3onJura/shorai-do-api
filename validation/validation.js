@@ -10,7 +10,6 @@ const validation = (schema, property) => {
     const { error } = schema.validate(request[property], options)
     const valid = error == null
 
-    console.log(error)
     if (valid) {
       next()
     } else {

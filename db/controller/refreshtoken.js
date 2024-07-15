@@ -42,7 +42,6 @@ module.exports = {
         attributes: ["id", "token"],
         where: { token: token },
       })
-      console.log("refToken:", refToken)
       if (refToken) {
         return true
       } else {
