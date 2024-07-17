@@ -9,7 +9,7 @@ const schemas = {
     rank: Joi.number(),
     category: Joi.string(),
     color: Joi.string(),
-    user: Joi.number(),
+    dojo: Joi.number(),
     graduatedon: Joi.date(),
   }),
   loginUser: Joi.object().keys({
@@ -59,6 +59,13 @@ const schemas = {
     color: Joi.string().required(),
     user: Joi.number().required(),
     graduatedon: Joi.date().required(),
+  }),
+  updateExam: Joi.object().keys({
+    rank: Joi.number().required(),
+    category: Joi.string().required(),
+    color: Joi.string().required(),
+    graduatedon: Joi.date().required(),
+    examid: Joi.number().required(),
   }),
 }
 module.exports = schemas
