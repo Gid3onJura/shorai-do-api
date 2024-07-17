@@ -53,5 +53,12 @@ const schemas = {
     repeating: Joi.boolean(),
     repetitiontype: Joi.string(),
   }),
+  createExam: Joi.object().keys({
+    rank: Joi.number().required(),
+    category: Joi.string().required(),
+    color: Joi.string().required(),
+    user: Joi.number().required(),
+    graduatedon: Joi.date().required(),
+  }),
 }
 module.exports = schemas
