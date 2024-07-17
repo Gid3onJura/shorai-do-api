@@ -17,9 +17,9 @@ CREATE TABLE `ranks` (
   `category` varchar(10) NOT NULL,
   `color` varchar(10) NOT NULL,
   `user` smallint(5) unsigned NOT NULL,
-  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   `graduatedon` date NOT NULL,
-  `updatedAt` datetime DEFAULT NULL,
+  `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
+  `updatedAt` datetime NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `user` (`user`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -78,6 +78,7 @@ CREATE TABLE `refreshTokens` (
   `id` int NOT NULL AUTO_INCREMENT,
   `token` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NOT NULL,
   `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
-  `updatedAt` datetime NOT NULL DEFAULT current_timestamp(),
+  `updatedAt` datetime NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
+  KEY `refreshTokens_token_IDX` (`token`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
