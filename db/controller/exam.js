@@ -88,4 +88,22 @@ module.exports = {
       return false
     }
   },
+  deleteExamById: async function (id) {
+    try {
+      const deletedExam = await Exam.destroy({
+        where: { id: id },
+      })
+      if (deletedExam) {
+        return true
+      } else {
+        return false
+      }
+    } catch (error) {
+      console.log(error)
+      return {
+        status: 500,
+        message: "database error",
+      }
+    }
+  },
 }

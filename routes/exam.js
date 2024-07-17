@@ -111,4 +111,13 @@ router.patch("/", authenticateToken, validation(schemas.updateExam, "body"), asy
   }
 })
 
+router.delete("/:id", authenticateToken, async (request, response) => {
+  const deletedExam = await examController.deleteExamById(request.params.id)
+  if (deletedExam) {
+    return response.status(200).send()
+  } else {
+    return response.status(404).send()
+  }
+})
+
 module.exports = router
