@@ -12,17 +12,18 @@ CREATE TABLE `dojos` (
 -- Table structure for table `ranks`
 --
 CREATE TABLE `ranks` (
-  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `rank` tinyint(3) unsigned NOT NULL,
+  `id` smallint unsigned NOT NULL AUTO_INCREMENT,
+  `rank` tinyint unsigned NOT NULL,
   `category` varchar(10) NOT NULL,
   `color` varchar(10) NOT NULL,
-  `user` smallint(5) unsigned NOT NULL,
+  `user` int NOT NULL,
   `graduatedon` date NOT NULL,
-  `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
-  `updatedAt` datetime NULL DEFAULT current_timestamp(),
+  `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `user` (`user`),
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  KEY `ranks_users_FK` (`user`),
+  CONSTRAINT `ranks_users_FK` FOREIGN KEY (`user`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -79,6 +80,6 @@ CREATE TABLE `refreshTokens` (
   `token` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NOT NULL,
   `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
   `updatedAt` datetime NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
   KEY `refreshTokens_token_IDX` (`token`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
