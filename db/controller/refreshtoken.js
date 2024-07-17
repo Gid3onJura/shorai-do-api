@@ -1,4 +1,3 @@
-const md5 = require("md5")
 const RefToken = require("../models/RefreshToken")
 
 module.exports = {

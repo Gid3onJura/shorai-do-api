@@ -4,6 +4,7 @@ const md5 = require("md5")
 const router = express.Router()
 
 const userController = require("../db/controller/users")
+const examController = require("../db/controller/exam")
 const schemas = require("../validation/schemas")
 const validation = require("../validation/validation")
 const { authenticateToken } = require("../middleware/authenticateToken")
@@ -19,6 +20,12 @@ router.get("/", authenticateToken, async (request, response) => {
 
 router.get("/:id", authenticateToken, async (request, response) => {
   const findUser = await userController.findUserById(request.params.id)
+
+  if (findUser) {
+    const examsFromUser = await examController.findAllExamsFromUser(findUser.id)
+    findUser.dataValues.exams = examsFromUser
+  }
+
   if (findUser) {
     return response.send(findUser).status(200)
   } else {

@@ -1,4 +1,3 @@
-const md5 = require("md5")
 const Exam = require("../models/Exam")
 
 module.exports = {
@@ -7,6 +6,7 @@ module.exports = {
       const exams = await Exam.findAll({
         attributes: ["rank", "category", "color", "user", "graduatedon"],
         where: { user: userId },
+        order: [["rank", "ASC"]],
       }).catch((error) => [])
       if (exams && exams.length > 0) {
         return exams
