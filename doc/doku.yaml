@@ -7,15 +7,14 @@ info:
 
 servers:
   - url: http://localhost:8080
-  - url: https://shorai-do-api.herokuapp.com
 
 tags:
   - name: auth
     description: Everything about authentication
   - name: user
     description: Access to user interaction
-  - name: rank
-    description: Access to rank interaction
+  - name: exam
+    description: Access to exam interaction
 
 paths:
   # auth
@@ -189,12 +188,12 @@ paths:
         "500":
           description: Internal Error
 
-  # rank
-  /rank:
+  # exam
+  /exam:
     post:
       tags:
-        - rank
-      summary: register rank
+        - exam
+      summary: add exam to user
       description: set belt color and rank
       security:
         - bearerAuth: []
@@ -202,7 +201,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/RegisterRankRequest"
+              $ref: "#/components/schemas/AddExamRequest"
         required: true
       responses:
         "201":
@@ -221,19 +220,19 @@ paths:
           description: Internal Error
     patch:
       tags:
-        - rank
-      summary: update rank
-      description: update rank and graduated when
+        - exam
+      summary: update exam
+      description: update exam
       security:
         - bearerAuth: []
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/RegisterRankRequest"
+              $ref: "#/components/schemas/UpdateExamRequest"
         required: true
       responses:
-        "201":
+        "200":
           description: Success
         "400":
           description: Bad Request
@@ -247,6 +246,34 @@ paths:
           description: Forbidden
         "500":
           description: Internal Error
+
+  /exam/:id:
+    delete:
+      tags:
+        - exam
+      summary: delete exam by id
+      description: delete exam from user by exam id
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id of the exam to delete
+      responses:
+        "200":
+          description: Success
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Error
+
 components:
   schemas:
     BadRequestValidation:
@@ -317,9 +344,12 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
           example: 1
         nickname:
+          type: string
+          example: Bob
+        name:
           type: string
           example: Bob
         email:
@@ -331,9 +361,25 @@ components:
         activated:
           type: boolean
           example: true
-        birth::
+        birth:
           type: string
           example: "1992-04-03"
+        rank:
+          type: integer
+          example: 3
+        category:
+          type: string
+          example: kyu
+        color:
+          type: string
+          example: green
+        graduatedon:
+          type: string
+          example: "2023-04-03"
+        exams:
+          type: array
+          items:
+            $ref: "#/components/schemas/Exam"
     RegisterUserRequest:
       required:
         - nickname
@@ -358,17 +404,18 @@ components:
         message:
           type: string
           example: "user already exists"
-    RegisterRankRequest:
+    AddExamRequest:
       required:
         - rank
         - category
         - color
         - user
+        - graduatedon
       type: object
       properties:
         rank:
-          type: string
-          example: "6"
+          type: integer
+          example: 6
         category:
           type: string
           example: "kyu"
@@ -381,6 +428,52 @@ components:
         graduatedon:
           type: string
           example: "1992-04-03"
+    UpdateExamRequest:
+      required:
+        - rank
+        - category
+        - color
+        - graduatedon
+        - examid
+      type: object
+      properties:
+        rank:
+          type: integer
+          example: 6
+        category:
+          type: string
+          example: "kyu"
+        color:
+          type: string
+          example: "white"
+        graduatedon:
+          type: string
+          example: "1992-04-03"
+        examid:
+          type: integer
+          example: 102
+    Exam:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 3
+        rank:
+          type: integer
+          example: 2
+        category:
+          type: string
+          example: "kyu"
+        color:
+          type: string
+          example: "blue"
+        user:
+          type: integer
+          example: 1
+        graduatedon:
+          type: string
+          example: "2023-04-03"
+
   securitySchemes:
     bearerAuth:
       type: http
