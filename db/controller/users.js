@@ -123,6 +123,25 @@ module.exports = {
         where: { email: email },
       })
       if (user) {
+        return user
+      } else {
+        return false
+      }
+    } catch (error) {
+      console.log(error)
+      return {
+        status: 500,
+        message: "database error",
+      }
+    }
+  },
+  resetCodeExists: async function (resetCode) {
+    try {
+      const user = await User.findOne({
+        attributes: ["id"],
+        where: { resetcode: resetCode },
+      })
+      if (user) {
         return true
       } else {
         return false

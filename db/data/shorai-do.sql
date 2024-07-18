@@ -44,6 +44,7 @@ CREATE TABLE `users` (
   `color` varchar(10) NULL,
   `graduatedon` date NULL,
   `updatedAt` datetime DEFAULT NULL,
+  `resetcode` VARCHAR(6) NULL
   PRIMARY KEY (`id`),
   UNIQUE KEY `nickname` (`nickname`),
   UNIQUE KEY `email` (`email`),

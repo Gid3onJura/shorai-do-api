@@ -7,6 +7,7 @@ const userController = require("../db/controller/users")
 const refTokenController = require("../db/controller/refreshtoken")
 const schemas = require("../validation/schemas")
 const validation = require("../validation/validation")
+const { generateResetCode, createMailTransporter, verifyConnection, sendMail } = require("../lib")
 
 router.post("/login", validation(schemas.loginUser, "body"), async (request, response) => {
   try {
@@ -75,6 +76,75 @@ router.delete("/logout", validation(schemas.logout, "body"), async (request, res
 })
 
 router.post("/forgotpassword", validation(schemas.forgotpassword, "body"), async (request, response) => {
+  let emailExists
+
+  // get email from request body
+  const email = request.body.email
+
+  // check is there a user with this email...
+  if (email) {
+    emailExists = await userController.emailExists(email)
+    if (emailExists && emailExists.status > 201) {
+      return response.status(500).send({
+        message: "forgot password function has an error",
+      })
+    }
+    if (!emailExists) {
+      return response.status(404).send({
+        message: "email not exists",
+      })
+    }
+  } else {
+    return response.status(404).send({
+      message: "email not exists",
+    })
+  }
+
+  // ... if user exists generate 6-digit code and save in database
+  let resetCode = (await generateResetCode()).toString()
+  let countTries = 100
+  while ((await userController.resetCodeExists(resetCode)) && countTries >= 0) {
+    resetCode = (await generateResetCode()).toString()
+    countTries--
+  }
+
+  if (countTries == 0) {
+    return response.status(500).send({
+      message: "error generate reset code",
+    })
+  }
+
+  const updatedUser = await userController.updateUser({
+    id: emailExists.id,
+    user: emailExists.id,
+    resetcode: resetCode,
+  })
+
+  if (!updatedUser) {
+    return response.status(500).send({
+      message: "reset code can not save in database",
+    })
+  }
+
+  // prepare email with code
+  const transporter = await createMailTransporter()
+
+  if (!verifyConnection(transporter)) {
+    return response.status(500).send({
+      message: "no connection to mailserver",
+    })
+  }
+
+  // sending mail
+  const sendedMail = await sendMail(transporter, email)
+
+  if (!sendedMail) {
+    return response.status(200).send({
+      message: "mail not sended",
+    })
+  }
+
+  // response
   return response.status(200).send({
     message: "mail sended",
   })

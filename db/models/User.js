@@ -35,6 +35,9 @@ const User = db.define("users", {
   graduatedon: {
     type: Sequelize.DATE,
   },
+  resetcode: {
+    type: Sequelize.STRING,
+  },
 })
 
 module.exports = User
