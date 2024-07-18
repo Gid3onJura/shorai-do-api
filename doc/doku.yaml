@@ -2,7 +2,7 @@ openapi: 3.0.3
 
 info:
   title: Shorai-Do-Api
-  description: Api interface for [SDKM-Wiki Dev](https://shorai-do-kempo-dev.netlify.app/) or [SDKM-Wiki Live](https://shorai-do-kempo-app.netlify.app)
+  description: Api interface for [SDKM-Wiki Dev](https://dev.merseburg-shorai-do-kempo.de) or [SDKM-Wiki Live](https://shorai-do-kempo-app.netlify.app)
   version: 1.0.0
 
 servers:
@@ -70,12 +70,6 @@ paths:
         - auth
       summary: Logout
       description: invalidate access token
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/RefreshTokenRequest"
-        required: true
       responses:
         "200":
           description: Success
@@ -136,7 +130,7 @@ paths:
         "500":
           description: Internal Error
 
-  /user/:id:
+  /user/{id}:
     get:
       tags:
         - user
@@ -247,7 +241,7 @@ paths:
         "500":
           description: Internal Error
 
-  /exam/:id:
+  /exam/{id}:
     delete:
       tags:
         - exam
