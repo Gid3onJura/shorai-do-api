@@ -16,14 +16,14 @@ CREATE TABLE `ranks` (
   `rank` tinyint unsigned NOT NULL,
   `category` varchar(10) NOT NULL,
   `color` varchar(10) NOT NULL,
-  `user` int NOT NULL,
+  `user` smallint unsigned  NOT NULL,
   `graduatedon` date NOT NULL,
   `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `ranks_users_FK` (`user`),
   CONSTRAINT `ranks_users_FK` FOREIGN KEY (`user`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
