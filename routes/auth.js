@@ -74,6 +74,12 @@ router.delete("/logout", validation(schemas.logout, "body"), async (request, res
   return response.status(200).send({})
 })
 
+router.post("/forgotpassword", validation(schemas.forgotpassword, "body"), async (request, response) => {
+  return response.status(200).send({
+    message: "mail sended",
+  })
+})
+
 const authenticateUser = async (nickname, password) => {
   return await userController.userExists(nickname, password)
 }

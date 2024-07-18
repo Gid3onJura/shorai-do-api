@@ -22,6 +22,9 @@ const schemas = {
   logout: Joi.object().keys({
     token: Joi.string().required(),
   }),
+  forgotpassword: Joi.object().keys({
+    email: Joi.string().required(),
+  }),
   updateUser: Joi.object().keys({
     nickname: Joi.string(),
     name: Joi.string(),
