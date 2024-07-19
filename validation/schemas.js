@@ -25,6 +25,10 @@ const schemas = {
   forgotpassword: Joi.object().keys({
     email: Joi.string().required(),
   }),
+  resetpassword: Joi.object().keys({
+    resetcode: Joi.string().required(),
+    password: Joi.string().required(),
+  }),
   updateUser: Joi.object().keys({
     nickname: Joi.string(),
     name: Joi.string(),

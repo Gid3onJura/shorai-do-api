@@ -136,10 +136,10 @@ router.post("/forgotpassword", validation(schemas.forgotpassword, "body"), async
   }
 
   // sending mail
-  const sendedMail = await sendMail(transporter, email)
+  const sendedMail = await sendMail(transporter, email, resetCode)
 
   if (!sendedMail) {
-    return response.status(200).send({
+    return response.status(500).send({
       message: "mail not sended",
     })
   }
@@ -149,6 +149,8 @@ router.post("/forgotpassword", validation(schemas.forgotpassword, "body"), async
     message: "mail sended",
   })
 })
+
+router.post("/resetpassword", validation(schemas.resetpassword, "body"), async (request, response) => {})
 
 const authenticateUser = async (nickname, password) => {
   return await userController.userExists(nickname, password)
