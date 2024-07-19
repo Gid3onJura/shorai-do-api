@@ -150,7 +150,11 @@ router.post("/forgotpassword", validation(schemas.forgotpassword, "body"), async
   })
 })
 
-router.post("/resetpassword", validation(schemas.resetpassword, "body"), async (request, response) => {})
+router.post("/resetpassword", validation(schemas.resetpassword, "body"), async (request, response) => {
+  // reset code and password from request
+  // check if reset code exists
+  // if reset code exists -> hash password
+})
 
 const authenticateUser = async (nickname, password) => {
   return await userController.userExists(nickname, password)
