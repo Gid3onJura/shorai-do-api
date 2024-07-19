@@ -11,11 +11,27 @@ const { authenticateToken } = require("../middleware/authenticateToken")
 
 router.get("/", authenticateToken, async (request, response) => {
   const findUser = await userController.findAllUser()
-  if (findUser) {
-    return response.send(findUser).status(200)
-  } else {
-    return response.status(404).send()
-  }
+
+  const allUsers = []
+
+  const joinUserExam = new Promise((resolve, reject) => {
+    // for each user get exams
+    findUser.forEach(async (user, index, array) => {
+      const userId = user.dataValues.id
+      const examsFromUser = await examController.findAllExamsFromUser(userId)
+      user.dataValues.exams = examsFromUser
+      allUsers.push(user)
+      if (index === array.length - 1) resolve()
+    })
+  })
+
+  joinUserExam.then(() => {
+    if (allUsers) {
+      return response.send(allUsers).status(200)
+    } else {
+      return response.status(404).send()
+    }
+  })
 })
 
 router.get("/:id", authenticateToken, async (request, response) => {
