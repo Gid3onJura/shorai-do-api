@@ -9,6 +9,9 @@ const schemas = require("../validation/schemas")
 const validation = require("../validation/validation")
 const { authenticateToken } = require("../middleware/authenticateToken")
 
+/**
+ * get all user
+ */
 router.get("/", authenticateToken, async (request, response) => {
   const findUser = await userController.findAllUser()
 
@@ -34,6 +37,9 @@ router.get("/", authenticateToken, async (request, response) => {
   })
 })
 
+/**
+ * get user by id
+ */
 router.get("/:id", authenticateToken, async (request, response) => {
   const findUser = await userController.findUserById(request.params.id)
 
@@ -49,6 +55,9 @@ router.get("/:id", authenticateToken, async (request, response) => {
   }
 })
 
+/**
+ * delete user by id
+ */
 router.delete("/:id", authenticateToken, async (request, response) => {
   const deletedUser = await userController.deleteUserById(request.params.id)
   if (deletedUser) {
@@ -58,6 +67,11 @@ router.delete("/:id", authenticateToken, async (request, response) => {
   }
 })
 
+/**
+ * register new user
+ *
+ * @returns int userid
+ */
 router.post("/", authenticateToken, validation(schemas.createUser, "body"), async (request, response) => {
   const requestBody = request.body
 
@@ -118,7 +132,7 @@ router.post("/", authenticateToken, validation(schemas.createUser, "body"), asyn
 
   const userAdded = await userController.createUser(userData)
   if (userAdded) {
-    return response.status(201).send({})
+    return response.status(201).send({ userid: userAdded })
   } else {
     return response.status(500).send({
       message: "user not created",
@@ -126,6 +140,9 @@ router.post("/", authenticateToken, validation(schemas.createUser, "body"), asyn
   }
 })
 
+/**
+ * update user
+ */
 router.patch("/", authenticateToken, validation(schemas.updateUser, "body"), async (request, response) => {
   const requestBody = request.body
 
