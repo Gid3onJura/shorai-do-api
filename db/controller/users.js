@@ -1,5 +1,6 @@
 const md5 = require("md5")
 const User = require("../models/User")
+const examController = require("./exam")
 
 module.exports = {
   findAllUser: async function () {
@@ -48,6 +49,10 @@ module.exports = {
         where: { id: id },
       })
       if (user) {
+        // append exams to user
+        const examsFromUser = await examController.findAllExamsFromUser(user.id)
+        user.dataValues.exams = examsFromUser
+
         return user
       } else {
         return false

@@ -44,11 +44,6 @@ router.get("/:id", authenticateToken, async (request, response) => {
   const findUser = await userController.findUserById(request.params.id)
 
   if (findUser) {
-    const examsFromUser = await examController.findAllExamsFromUser(findUser.id)
-    findUser.dataValues.exams = examsFromUser
-  }
-
-  if (findUser) {
     return response.send(findUser).status(200)
   } else {
     return response.status(404).send()

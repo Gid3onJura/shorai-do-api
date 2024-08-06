@@ -22,8 +22,9 @@ router.post("/login", validation(schemas.loginUser, "body"), async (request, res
       })
       const refreshToken = await generateRefreshToken(userAllowed)
       const saveRefTokenSuccessfull = await saveRefreshToken(refreshToken)
+      const authUser = await userController.findUserById(userAllowed.id)
       if (saveRefTokenSuccessfull) {
-        return response.send({ accessToken, refreshToken })
+        return response.send({ accessToken, refreshToken, user: authUser })
       }
       return response.status(500).send({
         message: "saving ref token not successfully",
