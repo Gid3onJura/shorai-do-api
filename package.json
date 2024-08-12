@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Gid3onJura/shorai-do-api#readme",
   "dependencies": {
+    "@prisma/client": "^5.18.0",
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -31,5 +32,8 @@
     "mysql2": "^3.10.3",
     "nodemailer": "^6.9.14",
     "sequelize": "^6.25.3"
+  },
+  "devDependencies": {
+    "prisma": "^5.18.0"
   }
 }

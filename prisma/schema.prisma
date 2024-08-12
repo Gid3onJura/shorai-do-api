@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model dojos {
+  id    Int     @id @default(autoincrement())
+  name  String? @db.VarChar(255)
+  users users[]
+}
+
+model events {
+  id             Int       @id @default(autoincrement()) @db.UnsignedSmallInt
+  eventdate      DateTime? @db.DateTime(0)
+  eventcolor     String?   @db.VarChar(255)
+  description    String?   @db.VarChar(255)
+  override       Boolean?
+  repeating      Boolean?
+  eventtype      String?   @db.VarChar(255)
+  repetitiontype String?   @db.VarChar(255)
+  createdAt      DateTime  @default(now()) @db.DateTime(0)
+  updatedAt      DateTime? @db.DateTime(0)
+}
+
+model ranks {
+  id          Int       @id @default(autoincrement()) @db.UnsignedSmallInt
+  rank        Int       @db.UnsignedTinyInt
+  category    String    @db.VarChar(10)
+  color       String    @db.VarChar(10)
+  user        Int
+  graduatedon DateTime  @db.Date
+  createdAt   DateTime  @default(now()) @db.DateTime(0)
+  updatedAt   DateTime? @default(now()) @db.DateTime(0)
+  users       users     @relation(fields: [user], references: [id], onDelete: Cascade, map: "ranks_users_FK")
+
+  @@index([user], map: "ranks_users_FK")
+}
+
+model refreshTokens {
+  id        Int      @id @default(autoincrement())
+  token     String?  @db.VarChar(255)
+  createdAt DateTime @db.DateTime(0)
+  updatedAt DateTime @db.DateTime(0)
+
+  @@index([token], map: "refreshTokens_token_IDX")
+}
+
+model users {
+  id          Int       @id @default(autoincrement())
+  nickname    String?   @db.VarChar(255)
+  name        String?   @db.VarChar(255)
+  email       String?   @db.VarChar(255)
+  dojo        Int?      @default(1)
+  password    String?   @db.VarChar(255)
+  activated   Boolean?
+  birth       DateTime? @db.Date
+  rank        Int?
+  category    String?   @db.VarChar(255)
+  color       String?   @db.VarChar(255)
+  graduatedon DateTime? @db.DateTime(0)
+  createdAt   DateTime  @default(now()) @db.DateTime(0)
+  updatedAt   DateTime  @default(now()) @db.DateTime(0)
+  resetcode   String?   @db.VarChar(6)
+  ranks       ranks[]
+  dojos       dojos?    @relation(fields: [dojo], references: [id], onDelete: Cascade, map: "users_ibfk_1")
+
+  @@index([dojo], map: "users_ibfk_1")
+}
