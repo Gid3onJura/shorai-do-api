@@ -6,7 +6,13 @@ const router = express.Router()
 const schemas = require("../validation/schemas")
 const validation = require("../validation/validation")
 const { authenticateToken } = require("../middleware/authenticateToken")
-const { rankExists, createRank } = require("../prisma/controller/rank.controller")
+const {
+  rankExists,
+  createRank,
+  updateRank,
+  rankExistsById,
+  deleteRank,
+} = require("../prisma/controller/rank.controller")
 
 // create rank
 router.post("/", authenticateToken, validation(schemas.createRank, "body"), async (request, response) => {
@@ -71,8 +77,7 @@ router.patch("/", authenticateToken, validation(schemas.updateRank, "body"), asy
     category: requestBody.category,
     color: requestBody.color,
     user: requestBody.user,
-    graduatedon: requestBody.graduatedon,
-    // rankid: requestBody.rankid,
+    graduatedon: new Date(requestBody.graduatedon),
   }
 
   const rankId = requestBody.rankid
@@ -96,9 +101,9 @@ router.patch("/", authenticateToken, validation(schemas.updateRank, "body"), asy
   }
 
   // check if rank exists
-  const rankAlreadyExists = await examController.examExistsById(rankData.examid)
+  const rankAlreadyExists = await rankExistsById(rankId)
   if (rankAlreadyExists && rankAlreadyExists.status > 201) {
-    return response.status(500).send({})
+    return response.status(rankAlreadyExists).send({ message: rankAlreadyExists.message })
   }
 
   if (!rankAlreadyExists) {
@@ -107,7 +112,7 @@ router.patch("/", authenticateToken, validation(schemas.updateRank, "body"), asy
     })
   }
 
-  const rankUpdated = await examController.updateExam(rankData)
+  const rankUpdated = await updateRank(rankData, rankId)
 
   if (rankUpdated) {
     return response.status(200).send({})
@@ -119,8 +124,18 @@ router.patch("/", authenticateToken, validation(schemas.updateRank, "body"), asy
 })
 
 router.delete("/:id", authenticateToken, async (request, response) => {
-  const deletedRank = await examController.deleteExamById(request.params.id)
-  if (deletedRank) {
+  const rankId = parseInt(request.params.id)
+
+  if (!rankId) {
+    return response.status(400).send({
+      message: "rank id is mandatory",
+    })
+  }
+
+  const deletedRank = await deleteRank(rankId)
+  if (deletedRank && deletedRank.status) {
+    return response.status(deletedRank.status).send({ message: deletedRank.message })
+  } else if (deletedRank && !deletedRank.status) {
     return response.status(200).send()
   } else {
     return response.status(404).send()
