@@ -1,4 +1,5 @@
 const { PrismaClient } = require("@prisma/client")
+const md5 = require("md5")
 
 const usersClient = new PrismaClient().users
 
@@ -125,7 +126,7 @@ module.exports = {
         where: { nickname: nickname, password: md5(password), activated: true },
       })
       if (user) {
-        return user.dataValues
+        return user
       } else {
         return false
       }
@@ -133,7 +134,7 @@ module.exports = {
       console.log(error)
       return {
         status: 500,
-        message: error?.meta?.cause || "[update user]: database error",
+        message: error?.meta?.cause || "[user exists]: database error",
       }
     }
   },

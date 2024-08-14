@@ -3,15 +3,22 @@ const jwt = require("jsonwebtoken")
 require("dotenv").config()
 const router = express.Router()
 
-const userController = require("../db/controller/users")
-const refTokenController = require("../db/controller/refreshtoken")
 const schemas = require("../validation/schemas")
 const validation = require("../validation/validation")
 const { generateResetCode, createMailTransporter, verifyConnection, sendMail } = require("../lib")
+const {
+  getUserById,
+  emailExists,
+  resetCodeExists,
+  updateUser,
+  userExists,
+} = require("../prisma/controller/user.controller")
+const { setToken, refTokenExists, deleteToken } = require("../prisma/controller/refreshtoken.controller")
 
 router.post("/login", validation(schemas.loginUser, "body"), async (request, response) => {
   try {
     const { nickname, password } = request.body
+
     // authenticate user
     const userAllowed = await authenticateUser(nickname, password)
 
@@ -21,8 +28,8 @@ router.post("/login", validation(schemas.loginUser, "body"), async (request, res
         nickname: userAllowed.nickname,
       })
       const refreshToken = await generateRefreshToken(userAllowed)
-      const saveRefTokenSuccessfull = await saveRefreshToken(refreshToken)
-      const authUser = await userController.findUserById(userAllowed.id)
+      const saveRefTokenSuccessfull = await saveRefreshToken({ token: refreshToken })
+      const authUser = await getUserById(userAllowed.id)
       if (saveRefTokenSuccessfull) {
         return response.send({ accessToken, refreshToken, user: authUser })
       }
@@ -69,28 +76,43 @@ router.post("/refreshtoken", validation(schemas.refreshToken, "body"), async (re
 
 router.delete("/logout", validation(schemas.logout, "body"), async (request, response) => {
   const refreshToken = request.body.token
-  if (!(await deleteRefreshToken(refreshToken))) {
+
+  // check if token already exists
+  const refTokenAlreadyExists = await refTokenExists(refreshToken)
+
+  if (refTokenAlreadyExists && refTokenAlreadyExists.status) {
+    return response.status(refTokenAlreadyExists.status).send({ message: refTokenAlreadyExists.message })
+  } else if (!refTokenAlreadyExists && !refTokenAlreadyExists.status) {
     return response.status(403).send({})
   }
-  // const accessToken = generateAccessToken({}, 1)
+
+  // delete ref token
+  const refTokenDestroyed = await deleteRefreshToken(refreshToken)
+
+  if (refTokenDestroyed && refTokenDestroyed.status) {
+    return response.status(refTokenDestroyed.status).send({ message: refTokenDestroyed.message })
+  } else if (!refTokenDestroyed && !refTokenDestroyed.status) {
+    return response.status(403).send({})
+  }
+
   return response.status(200).send({})
 })
 
 router.post("/forgotpassword", validation(schemas.forgotpassword, "body"), async (request, response) => {
-  let emailExists
+  let emailAlreadyExists
 
   // get email from request body
   const email = request.body.email
 
   // check is there a user with this email...
   if (email) {
-    emailExists = await userController.emailExists(email)
-    if (emailExists && emailExists.status > 201) {
+    emailAlreadyExists = await emailExists(email)
+    if (emailAlreadyExists && emailAlreadyExists.status > 201) {
       return response.status(500).send({
         message: "forgot password function has an error",
       })
     }
-    if (!emailExists) {
+    if (!emailAlreadyExists) {
       return response.status(404).send({
         message: "email not exists",
       })
@@ -104,7 +126,7 @@ router.post("/forgotpassword", validation(schemas.forgotpassword, "body"), async
   // ... if user exists generate 6-digit code and save in database
   let resetCode = (await generateResetCode()).toString()
   let countTries = 100
-  while ((await userController.resetCodeExists(resetCode)) && countTries >= 0) {
+  while ((await resetCodeExists(resetCode)) && countTries >= 0) {
     resetCode = (await generateResetCode()).toString()
     countTries--
   }
@@ -115,11 +137,12 @@ router.post("/forgotpassword", validation(schemas.forgotpassword, "body"), async
     })
   }
 
-  const updatedUser = await userController.updateUser({
-    id: emailExists.id,
-    user: emailExists.id,
-    resetcode: resetCode,
-  })
+  const updatedUser = await updateUser(
+    {
+      resetcode: resetCode,
+    },
+    emailAlreadyExists.id
+  )
 
   if (!updatedUser) {
     return response.status(500).send({
@@ -158,7 +181,7 @@ router.post("/resetpassword", validation(schemas.resetpassword, "body"), async (
 })
 
 const authenticateUser = async (nickname, password) => {
-  return await userController.userExists(nickname, password)
+  return await userExists(nickname, password)
 }
 
 const generateAccessToken = async (user, expiresIn = process.env.ACCESS_TOKEN_EXPIRES_IN) => {
@@ -171,16 +194,16 @@ const generateRefreshToken = async (user) => {
   return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
 }
 
-const saveRefreshToken = async (token) => {
-  return await refTokenController.setToken(token)
+const saveRefreshToken = async (tokenData) => {
+  return await setToken(tokenData)
 }
 
 const refreshTokenExists = async (token) => {
-  return await refTokenController.refTokenExists(token)
+  return await refTokenExists(token)
 }
 
 const deleteRefreshToken = async (refreshToken) => {
-  return await refTokenController.deleteToken(refreshToken)
+  return await deleteToken(refreshToken)
 }
 
 module.exports = router

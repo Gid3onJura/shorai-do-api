@@ -42,9 +42,9 @@ model ranks {
 
 model refreshTokens {
   id        Int      @id @default(autoincrement())
-  token     String?  @db.VarChar(255)
-  createdAt DateTime @db.DateTime(0)
-  updatedAt DateTime @db.DateTime(0)
+  token     String?  @db.VarChar(255) @unique
+  createdAt DateTime @default(now()) @db.DateTime(0)
+  updatedAt DateTime @default(now()) @db.DateTime(0)
 
   @@index([token], map: "refreshTokens_token_IDX")
 }

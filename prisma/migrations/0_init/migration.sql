@@ -41,9 +41,10 @@ CREATE TABLE `ranks` (
 CREATE TABLE `refreshTokens` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `token` VARCHAR(255) NULL,
-    `createdAt` DATETIME(0) NOT NULL,
-    `updatedAt` DATETIME(0) NOT NULL,
+    `createdAt` DATETIME(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+    `updatedAt` DATETIME(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
 
+    UNIQUE INDEX `refreshTokens_token_key`(`token`),
     INDEX `refreshTokens_token_IDX`(`token`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

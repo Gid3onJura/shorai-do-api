@@ -170,6 +170,7 @@ router.patch("/", authenticateToken, validation(schemas.updateUser, "body"), asy
     // graduatedon: requestBody.graduatedon,
     // user: requestBody.user,
     activated: requestBody.activated,
+    updatedAt: new Date(),
   }
 
   if (requestBody.user) {
