@@ -15,7 +15,16 @@ module.exports = {
           dojo: true,
           activated: true,
           birth: true,
-          ranks: true,
+          ranks: {
+            select: {
+              id: true,
+              rank: true,
+              category: true,
+              color: true,
+              user: true,
+              graduatedon: true,
+            },
+          },
         },
       })
 
@@ -42,7 +51,16 @@ module.exports = {
           dojo: true,
           activated: true,
           birth: true,
-          ranks: true,
+          ranks: {
+            select: {
+              id: true,
+              rank: true,
+              category: true,
+              color: true,
+              user: true,
+              graduatedon: true,
+            },
+          },
         },
         where: {
           id: userid,

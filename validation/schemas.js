@@ -60,19 +60,19 @@ const schemas = {
     repeating: Joi.boolean(),
     repetitiontype: Joi.string(),
   }),
-  createExam: Joi.object().keys({
+  createRank: Joi.object().keys({
     rank: Joi.number().required(),
     category: Joi.string().required(),
     color: Joi.string().required(),
     user: Joi.number().required(),
     graduatedon: Joi.date().required(),
   }),
-  updateExam: Joi.object().keys({
+  updateRank: Joi.object().keys({
     rank: Joi.number().required(),
     category: Joi.string().required(),
     color: Joi.string().required(),
     graduatedon: Joi.date().required(),
-    examid: Joi.number().required(),
+    rankid: Joi.number().required(),
   }),
 }
 module.exports = schemas

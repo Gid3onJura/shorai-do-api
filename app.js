@@ -62,4 +62,4 @@ app.use("/", require("./routes/test"))
 app.use("/utils", require("./routes/utils"))
 
 // exam routes
-app.use("/exam", require("./routes/exam"))
+app.use("/rank", require("./routes/rank"))
