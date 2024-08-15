@@ -24,6 +24,11 @@ module.exports = {
               user: true,
               graduatedon: true,
             },
+            orderBy: [
+              {
+                graduatedon: "desc",
+              },
+            ],
           },
         },
       })

@@ -7,9 +7,10 @@ const eventsController = require("../db/controller/event")
 const schemas = require("../validation/schemas")
 const validation = require("../validation/validation")
 const { authenticateToken } = require("../middleware/authenticateToken")
+const { findAllEvents, createCalendarEvent, updateCalendarEvent } = require("../prisma/controller/event.controller")
 
 router.get("/", authenticateToken, async (request, response) => {
-  const findEvents = await eventsController.findAllEvents()
+  const findEvents = await findAllEvents()
   if (findEvents) {
     return response.send(findEvents).status(200)
   } else {
@@ -21,7 +22,7 @@ router.post("/", authenticateToken, validation(schemas.createCalendarEvent, "bod
   const requestBody = request.body
 
   let eventData = {
-    eventdate: requestBody.eventdate,
+    eventdate: new Date(requestBody.eventdate).toISOString(),
     eventcolor: requestBody.eventcolor,
     eventtype: requestBody.eventtype,
     description: requestBody.description,
@@ -30,7 +31,7 @@ router.post("/", authenticateToken, validation(schemas.createCalendarEvent, "bod
     repetitiontype: requestBody.repetitiontype,
   }
 
-  const eventAdded = await eventsController.createCalendarEvent(eventData)
+  const eventAdded = await createCalendarEvent(eventData)
   if (eventAdded) {
     return response.status(201).send({})
   } else {
@@ -44,17 +45,24 @@ router.patch("/", authenticateToken, validation(schemas.updateCalendarEvent, "bo
   const requestBody = request.body
 
   let eventData = {
-    event: requestBody.event,
-    eventdate: requestBody.eventdate,
+    // event: requestBody.event,
+    eventdate: new Date(requestBody.eventdate).toISOString(),
     eventcolor: requestBody.eventcolor,
     eventtype: requestBody.eventtype,
     description: requestBody.description,
     override: requestBody.override,
     repeating: requestBody.repeating,
     repetitiontype: requestBody.repetitiontype,
+    updatedAt: new Date(),
   }
 
-  const eventUpdated = await eventsController.updateCalendarEvent(eventData)
+  const eventId = parseInt(requestBody.event)
+
+  if (!eventId) {
+    return response.status(400).send({ message: "event id is mandatory" })
+  }
+
+  const eventUpdated = await updateCalendarEvent(eventData, eventId)
 
   if (eventUpdated) {
     return response.status(200).send({})
