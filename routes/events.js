@@ -3,7 +3,6 @@ require("dotenv").config()
 const md5 = require("md5")
 const router = express.Router()
 
-const eventsController = require("../db/controller/event")
 const schemas = require("../validation/schemas")
 const validation = require("../validation/validation")
 const { authenticateToken } = require("../middleware/authenticateToken")

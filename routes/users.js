@@ -3,8 +3,6 @@ require("dotenv").config()
 const md5 = require("md5")
 const router = express.Router()
 
-// const userController = require("../db/controller/users")
-// const examController = require("../db/controller/exam")
 const schemas = require("../validation/schemas")
 const validation = require("../validation/validation")
 const { authenticateToken } = require("../middleware/authenticateToken")
