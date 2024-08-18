@@ -19,6 +19,7 @@ module.exports = {
           "color",
           "graduatedon",
         ],
+        order: [["id", "ASC"]],
       }).catch((error) => [])
       if (users && users.length > 0) {
         return users

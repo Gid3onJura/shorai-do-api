@@ -18,13 +18,15 @@ router.get("/", authenticateToken, async (request, response) => {
   const allUsers = []
 
   const joinUserExam = new Promise((resolve, reject) => {
+    let count = 0
     // for each user get exams
     findUser.forEach(async (user, index, array) => {
       const userId = user.dataValues.id
       const examsFromUser = await examController.findAllExamsFromUser(userId)
       user.dataValues.exams = examsFromUser
       allUsers.push(user)
-      if (index === array.length - 1) resolve()
+      count++
+      if (count === findUser.length) resolve()
     })
   })
 
