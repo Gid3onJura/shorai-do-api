@@ -4,6 +4,7 @@ const express = require("express")
 const cors = require("cors")
 require("dotenv").config()
 const { resolveApiKey } = require("./middleware/resolveApiKey")
+const { apiState } = require("./middleware/apiStatus")
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -31,6 +32,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.use(resolveApiKey)
+app.use(apiState)
 
 // set header to all responses
 app.use(function (request, response, next) {
