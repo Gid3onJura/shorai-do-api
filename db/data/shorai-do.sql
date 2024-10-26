@@ -44,7 +44,7 @@ CREATE TABLE `users` (
   `color` varchar(10) NULL,
   `graduatedon` date NULL,
   `updatedAt` datetime DEFAULT NULL,
-  `resetcode` VARCHAR(6) NULL
+  `resetcode` VARCHAR(6) NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nickname` (`nickname`),
   UNIQUE KEY `email` (`email`),
@@ -61,7 +61,7 @@ CREATE TABLE `users` (
 -- 
 CREATE TABLE `events` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `eventdate` date NOT NULL DEFAULT curdate(),
+  `eventdate` date NOT NULL,
   `eventcolor` varchar(100) DEFAULT NULL,
   `description` varchar(100) NOT NULL,
   `override` tinyint(1) DEFAULT 0,
@@ -78,7 +78,7 @@ CREATE TABLE `events` (
 --
 CREATE TABLE `refreshTokens` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `token` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
   `updatedAt` datetime NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
