@@ -17,6 +17,22 @@ router.get("/", authenticateToken, async (request, response) => {
   }
 })
 
+router.get("/reduced", async (request, response) => {
+  const findEvents = await eventsController.findAllEvents()
+  if (findEvents) {
+    let reducedEvents = []
+    findEvents.forEach((event) => {
+      reducedEvents.push({
+        eventyear: new Date(event.dataValues.eventdate).getFullYear().toString(),
+        description: event.dataValues.description,
+      })
+    })
+    return response.send(reducedEvents).status(200)
+  } else {
+    return response.status(404).send()
+  }
+})
+
 router.post("/", authenticateToken, validation(schemas.createCalendarEvent, "body"), async (request, response) => {
   const requestBody = request.body
 

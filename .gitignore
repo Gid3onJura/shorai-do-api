@@ -4,3 +4,5 @@ node_modules
 *.key
 *.pem
 san.config
+.DS_Store
+db/.DS_Store
