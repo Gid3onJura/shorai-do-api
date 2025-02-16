@@ -18,7 +18,8 @@ router.get("/", authenticateToken, async (request, response) => {
 })
 
 router.get("/reduced", async (request, response) => {
-  const findEvents = await eventsController.findAllEvents()
+  const eventYear = request.query.year ?? new Date().getFullYear().toString()
+  const findEvents = await eventsController.findAllEventsInYear(eventYear)
   if (findEvents) {
     let reducedEvents = []
     findEvents.forEach((event) => {

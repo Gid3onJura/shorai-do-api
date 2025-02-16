@@ -1,4 +1,7 @@
 const Event = require("../models/Event")
+const Sequelize = require("sequelize")
+const Op = Sequelize.Op
+const db = require("../index")
 
 module.exports = {
   findAllEvents: async function (data) {
@@ -19,6 +22,31 @@ module.exports = {
         return events
       } else {
         return false
+      }
+    } catch (error) {
+      console.log(error)
+      return []
+    }
+  },
+  findAllEventsInYear: async function (year) {
+    try {
+      const exams = await Event.findAll({
+        attributes: [
+          "id",
+          "eventdate",
+          "eventcolor",
+          "eventtype",
+          "description",
+          "override",
+          "repeating",
+          "repetitiontype",
+        ],
+        where: db.where(db.fn("YEAR", db.col("eventdate")), year),
+      }).catch((error) => [])
+      if (exams && exams.length > 0) {
+        return exams
+      } else {
+        return []
       }
     } catch (error) {
       console.log(error)
