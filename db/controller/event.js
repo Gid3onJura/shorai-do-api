@@ -30,7 +30,7 @@ module.exports = {
   },
   findAllEventsInYear: async function (year) {
     try {
-      const exams = await Event.findAll({
+      const events = await Event.findAll({
         attributes: [
           "id",
           "eventdate",
@@ -43,8 +43,8 @@ module.exports = {
         ],
         where: db.where(db.fn("YEAR", db.col("eventdate")), year),
       }).catch((error) => [])
-      if (exams && exams.length > 0) {
-        return exams
+      if (events && events.length > 0) {
+        return events
       } else {
         return []
       }

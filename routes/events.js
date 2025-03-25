@@ -26,6 +26,7 @@ router.get("/reduced", async (request, response) => {
       reducedEvents.push({
         eventyear: new Date(event.dataValues.eventdate).getFullYear().toString(),
         description: event.dataValues.description,
+        eventdate: event.dataValues.eventdate,
       })
     })
     return response.send(reducedEvents).status(200)
