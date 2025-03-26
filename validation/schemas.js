@@ -50,6 +50,8 @@ const schemas = {
     override: Joi.boolean(),
     repeating: Joi.boolean(),
     repetitiontype: Joi.string().allow(""),
+    eventdatetimefrom: Joi.date().required(),
+    eventdatetimeto: Joi.date().required(),
   }),
   updateCalendarEvent: Joi.object().keys({
     event: Joi.number().required(),
@@ -59,6 +61,8 @@ const schemas = {
     override: Joi.boolean(),
     repeating: Joi.boolean(),
     repetitiontype: Joi.string(),
+    eventdatetimefrom: Joi.date(),
+    eventdatetimeto: Joi.date(),
   }),
   createExam: Joi.object().keys({
     rank: Joi.number().required(),

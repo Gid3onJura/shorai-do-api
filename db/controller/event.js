@@ -16,6 +16,8 @@ module.exports = {
           "override",
           "repeating",
           "repetitiontype",
+          "eventdatetimefrom",
+          "eventdatetimeto",
         ],
       }).catch((error) => [])
       if (events && events.length > 0) {
@@ -40,6 +42,8 @@ module.exports = {
           "override",
           "repeating",
           "repetitiontype",
+          "eventdatetimefrom",
+          "eventdatetimeto",
         ],
         where: db.where(db.fn("YEAR", db.col("eventdate")), year),
       }).catch((error) => [])

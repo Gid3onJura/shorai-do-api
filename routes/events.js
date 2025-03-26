@@ -7,6 +7,8 @@ const eventsController = require("../db/controller/event")
 const schemas = require("../validation/schemas")
 const validation = require("../validation/validation")
 const { authenticateToken } = require("../middleware/authenticateToken")
+const event = require("../db/controller/event")
+const e = require("express")
 
 router.get("/", authenticateToken, async (request, response) => {
   const findEvents = await eventsController.findAllEvents()
@@ -27,6 +29,8 @@ router.get("/reduced", async (request, response) => {
         eventyear: new Date(event.dataValues.eventdate).getFullYear().toString(),
         description: event.dataValues.description,
         eventdate: event.dataValues.eventdate,
+        eventdatetimefrom: event.dataValues.eventdatetimefrom,
+        eventdatetimeto: event.dataValues.eventdatetimeto,
       })
     })
     return response.send(reducedEvents).status(200)
@@ -46,6 +50,8 @@ router.post("/", authenticateToken, validation(schemas.createCalendarEvent, "bod
     override: requestBody.override,
     repeating: requestBody.repeating,
     repetitiontype: requestBody.repetitiontype,
+    eventdatetimefrom: requestBody.eventdatetimefrom,
+    eventdatetimeto: requestBody.eventdatetimeto,
   }
 
   const eventAdded = await eventsController.createCalendarEvent(eventData)
@@ -70,6 +76,8 @@ router.patch("/", authenticateToken, validation(schemas.updateCalendarEvent, "bo
     override: requestBody.override,
     repeating: requestBody.repeating,
     repetitiontype: requestBody.repetitiontype,
+    eventdatetimefrom: requestBody.eventdatetimefrom,
+    eventdatetimeto: requestBody.eventdatetimeto,
   }
 
   const eventUpdated = await eventsController.updateCalendarEvent(eventData)

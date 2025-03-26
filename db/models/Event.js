@@ -23,6 +23,12 @@ const Calendar = db.define("events", {
   eventtype: {
     type: Sequelize.STRING,
   },
+  eventdatetimefrom: {
+    type: Sequelize.DATE,
+  },
+  eventdatetimeto: {
+    type: Sequelize.DATE,
+  },
 })
 
 module.exports = Calendar
