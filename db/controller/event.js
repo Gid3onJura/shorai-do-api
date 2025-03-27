@@ -16,8 +16,8 @@ module.exports = {
           "override",
           "repeating",
           "repetitiontype",
-          "eventdatetimefrom",
-          "eventdatetimeto",
+          [Sequelize.literal("CONVERT_TZ(eventdatetimefrom, '+00:00', '+01:00')"), "eventdatetimefrom"],
+          [Sequelize.literal("CONVERT_TZ(eventdatetimeto, '+00:00', '+01:00')"), "eventdatetimeto"],
         ],
       }).catch((error) => [])
       if (events && events.length > 0) {
