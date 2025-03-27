@@ -70,6 +70,8 @@ CREATE TABLE `events` (
   `repeating` tinyint(1) DEFAULT 0,
   `eventtype` varchar(100) NOT NULL DEFAULT 'training',
   `repetitiontype` varchar(100) DEFAULT NULL,
+  `eventdatetimefrom` datetime DEFAULT NULL,
+  `eventdatetimeto` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
