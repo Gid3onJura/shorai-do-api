@@ -9,6 +9,7 @@ const validation = require("../validation/validation")
 const { authenticateToken } = require("../middleware/authenticateToken")
 const event = require("../db/controller/event")
 const e = require("express")
+const { convertDateTime } = require("../lib")
 
 router.get("/", authenticateToken, async (request, response) => {
   const findEvents = await eventsController.findAllEvents()
@@ -29,8 +30,8 @@ router.get("/reduced", async (request, response) => {
         eventyear: new Date(event.dataValues.eventdate).getFullYear().toString(),
         description: event.dataValues.description,
         eventdate: event.dataValues.eventdate,
-        eventdatetimefrom: event.dataValues.eventdatetimefrom,
-        eventdatetimeto: event.dataValues.eventdatetimeto,
+        eventdatetimefrom: convertDateTime(event.dataValues.eventdatetimefrom),
+        eventdatetimeto: convertDateTime(event.dataValues.eventdatetimeto),
       })
     })
     return response.send(reducedEvents).status(200)

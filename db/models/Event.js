@@ -31,7 +31,7 @@ const Calendar = db.define("events", {
           timeZone: "Europe/Berlin",
         })
       } else {
-        return null
+        return ""
       }
     },
   },
@@ -43,7 +43,7 @@ const Calendar = db.define("events", {
           timeZone: "Europe/Berlin",
         })
       } else {
-        return null
+        return ""
       }
     },
   },
