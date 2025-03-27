@@ -18,6 +18,7 @@ const db = new Sequelize(DB_NAME, DB_USER, DB_PW, {
     idle: 10000,
   },
   logging: process.env.CODE_ENVIRONMENT === "DEV" ? console.log : false,
+  timezone: "+01:00", // for writing to database
 })
 
 // test connection
