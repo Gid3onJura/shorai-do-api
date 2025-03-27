@@ -26,17 +26,25 @@ const Calendar = db.define("events", {
   eventdatetimefrom: {
     type: Sequelize.DATE,
     get() {
-      return new Date(this.getDataValue("eventdatetimefrom")).toLocaleString("de-DE", {
-        timeZone: "Europe/Berlin",
-      })
+      if (this.getDataValue("eventdatetimefrom")) {
+        return new Date(this.getDataValue("eventdatetimefrom")).toLocaleString("de-DE", {
+          timeZone: "Europe/Berlin",
+        })
+      } else {
+        return null
+      }
     },
   },
   eventdatetimeto: {
     type: Sequelize.DATE,
     get() {
-      return new Date(this.getDataValue("eventdatetimeto")).toLocaleString("de-DE", {
-        timeZone: "Europe/Berlin",
-      })
+      if (this.getDataValue("eventdatetimeto")) {
+        return new Date(this.getDataValue("eventdatetimeto")).toLocaleString("de-DE", {
+          timeZone: "Europe/Berlin",
+        })
+      } else {
+        return null
+      }
     },
   },
 })
