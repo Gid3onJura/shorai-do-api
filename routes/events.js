@@ -27,6 +27,7 @@ router.get("/reduced", async (request, response) => {
     let reducedEvents = []
     findEvents.forEach((event) => {
       reducedEvents.push({
+        eventid: event.dataValues.id,
         eventyear: new Date(event.dataValues.eventdate).getFullYear().toString(),
         description: event.dataValues.description,
         eventdate: event.dataValues.eventdate,
