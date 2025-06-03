@@ -6,12 +6,39 @@ const router = express.Router()
 const schemas = require("../validation/schemas")
 const validation = require("../validation/validation")
 const { authenticateToken } = require("../middleware/authenticateToken")
-const { findAllEvents, createCalendarEvent, updateCalendarEvent } = require("../prisma/controller/event.controller")
+const {
+  findAllEvents,
+  findAllEventsInYear,
+  createCalendarEvent,
+  updateCalendarEvent,
+} = require("../prisma/controller/event.controller")
 
 router.get("/", authenticateToken, async (request, response) => {
   const findEvents = await findAllEvents()
   if (findEvents) {
     return response.send(findEvents).status(200)
+  } else {
+    return response.status(404).send()
+  }
+})
+
+router.get("/reduced", async (request, response) => {
+  const eventYear = request.query.year ?? new Date().getFullYear().toString()
+  const findEvents = await findAllEventsInYear(eventYear)
+  if (findEvents) {
+    let reducedEvents = []
+    findEvents.forEach((event) => {
+      reducedEvents.push({
+        eventid: event.id,
+        eventyear: new Date(event.eventdate).getFullYear().toString(),
+        description: event.description,
+        eventdate: event.eventdate,
+        eventdatetimefrom: event.eventdatetimefrom,
+        eventdatetimeto: event.eventdatetimeto,
+        deadline: event.deadline,
+      })
+    })
+    return response.send(reducedEvents).status(200)
   } else {
     return response.status(404).send()
   }

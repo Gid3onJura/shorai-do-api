@@ -27,6 +27,7 @@ model events {
   repetitiontype    String?   @db.VarChar(100)
   eventdatetimefrom DateTime? @db.DateTime(0)
   eventdatetimeto   DateTime? @db.DateTime(0)
+  deadline          DateTime? @db.DateTime(0)
 }
 
 model ranks {
