@@ -18,6 +18,7 @@ module.exports = {
           "repetitiontype",
           "eventdatetimefrom",
           "eventdatetimeto",
+          "deadline",
         ],
       }).catch((error) => [])
       if (events && events.length > 0) {
@@ -44,6 +45,7 @@ module.exports = {
           "repetitiontype",
           "eventdatetimefrom",
           "eventdatetimeto",
+          "deadline",
         ],
         where: db.where(db.fn("YEAR", db.col("eventdate")), year),
       }).catch((error) => [])

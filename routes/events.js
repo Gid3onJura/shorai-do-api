@@ -33,6 +33,7 @@ router.get("/reduced", async (request, response) => {
         eventdate: event.dataValues.eventdate,
         eventdatetimefrom: convertDateTime(event.dataValues.eventdatetimefrom),
         eventdatetimeto: convertDateTime(event.dataValues.eventdatetimeto),
+        deadline: event.dataValues.deadline,
       })
     })
     return response.send(reducedEvents).status(200)

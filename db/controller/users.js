@@ -6,19 +6,7 @@ module.exports = {
   findAllUser: async function () {
     try {
       const users = await User.findAll({
-        attributes: [
-          "id",
-          "nickname",
-          "name",
-          "email",
-          "dojo",
-          "activated",
-          "birth",
-          "rank",
-          "category",
-          "color",
-          "graduatedon",
-        ],
+        attributes: ["id", "nickname", "name", "email", "dojo", "activated", "birth"],
         order: [["id", "ASC"]],
       }).catch((error) => [])
       if (users && users.length > 0) {
@@ -34,19 +22,7 @@ module.exports = {
   findUserById: async function (id) {
     try {
       const user = await User.findOne({
-        attributes: [
-          "id",
-          "nickname",
-          "name",
-          "email",
-          "dojo",
-          "activated",
-          "birth",
-          "rank",
-          "category",
-          "color",
-          "graduatedon",
-        ],
+        attributes: ["id", "nickname", "name", "email", "dojo", "activated", "birth"],
         where: { id: id },
       })
       if (user) {
