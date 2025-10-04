@@ -31,8 +31,11 @@ router.get("/reduced", async (request, response) => {
         eventyear: new Date(event.dataValues.eventdate).getFullYear().toString(),
         description: event.dataValues.description,
         eventdate: event.dataValues.eventdate,
-        eventdatetimefrom: convertDateTime(event.dataValues.eventdatetimefrom),
-        eventdatetimeto: convertDateTime(event.dataValues.eventdatetimeto),
+        // eventdatetimefrom: convertDateTime(event.dataValues.eventdatetimefrom),
+        eventdatetimefrom: event.dataValues.eventdatetimefrom,
+        // eventdatetimeto: convertDateTime(event.dataValues.eventdatetimeto),
+        eventdatetimeto: event.dataValues.eventdatetimeto,
+        eventtype: event.dataValues.eventtype,
         deadline: event.dataValues.deadline,
       })
     })
