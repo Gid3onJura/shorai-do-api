@@ -1,4 +1,5 @@
 const Event = require("../models/Event")
+const Option = require("../models/Option")
 const Sequelize = require("sequelize")
 const Op = Sequelize.Op
 const db = require("../index")
@@ -19,6 +20,13 @@ module.exports = {
           "eventdatetimefrom",
           "eventdatetimeto",
           "deadline",
+        ],
+        include: [
+          {
+            model: Option,
+            as: "options",
+            attributes: ["id", "description"],
+          },
         ],
       }).catch((error) => [])
       if (events && events.length > 0) {
@@ -60,14 +68,23 @@ module.exports = {
     }
   },
   createCalendarEvent: async function (data) {
+    const transaction = await Event.sequelize.transaction()
     try {
-      const newEvent = await Event.create(data)
-      if (newEvent) {
-        return true
-      } else {
-        return false
+      const newEvent = await Event.create(data, { transaction: transaction })
+
+      if (data.options && Array.isArray(data.options) && data.options.length > 0) {
+        const optionObjects = data.options.map((desc) => ({
+          eventid: newEvent.id,
+          description: desc,
+        }))
+
+        await Option.bulkCreate(optionObjects, { transaction: transaction })
       }
+
+      await transaction.commit()
+      return true
     } catch (error) {
+      await transaction.rollback()
       console.log(error)
       return false
     }

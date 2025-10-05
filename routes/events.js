@@ -27,7 +27,7 @@ router.get("/reduced", async (request, response) => {
     let reducedEvents = []
     findEvents.forEach((event) => {
       reducedEvents.push({
-        eventid: event.dataValues.id,
+        id: event.dataValues.id,
         eventyear: new Date(event.dataValues.eventdate).getFullYear().toString(),
         description: event.dataValues.description,
         eventdate: event.dataValues.eventdate,
@@ -58,6 +58,8 @@ router.post("/", authenticateToken, validation(schemas.createCalendarEvent, "bod
     repetitiontype: requestBody.repetitiontype,
     eventdatetimefrom: requestBody.eventdatetimefrom,
     eventdatetimeto: requestBody.eventdatetimeto,
+    deadline: requestBody.deadline,
+    options: requestBody.options,
   }
 
   const eventAdded = await eventsController.createCalendarEvent(eventData)

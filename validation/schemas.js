@@ -52,6 +52,7 @@ const schemas = {
     repetitiontype: Joi.string().allow(""),
     eventdatetimefrom: Joi.date().required(),
     eventdatetimeto: Joi.date().required(),
+    deadline: Joi.date(),
   }),
   updateCalendarEvent: Joi.object().keys({
     event: Joi.number().required(),
@@ -63,6 +64,7 @@ const schemas = {
     repetitiontype: Joi.string(),
     eventdatetimefrom: Joi.date(),
     eventdatetimeto: Joi.date(),
+    deadline: Joi.date(),
   }),
   createExam: Joi.object().keys({
     rank: Joi.number().required(),

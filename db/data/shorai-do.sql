@@ -18,8 +18,8 @@ CREATE TABLE `ranks` (
   `color` varchar(10) NOT NULL,
   `user` smallint unsigned  NOT NULL,
   `graduatedon` date NOT NULL,
-  `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
+  `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `ranks_users_FK` (`user`),
   CONSTRAINT `ranks_users_FK` FOREIGN KEY (`user`) REFERENCES `users` (`id`)
@@ -82,7 +82,25 @@ CREATE TABLE `refreshTokens` (
   `id` int NOT NULL AUTO_INCREMENT,
   `token` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
-  `updatedAt` datetime NULL DEFAULT current_timestamp(),
+  `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `refreshTokens_token_IDX` (`token`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Table structure for table `options`
+--
+CREATE TABLE `options` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `eventid` smallint(5) unsigned NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
+  `updatedAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `option_FK` (`eventid`),
+  FULLTEXT KEY `option_description_IDX` (`description`),
+  CONSTRAINT `option_FK` 
+    FOREIGN KEY (`eventid`) REFERENCES `events` (`id`) 
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
