@@ -55,6 +55,13 @@ module.exports = {
           "eventdatetimeto",
           "deadline",
         ],
+        include: [
+          {
+            model: Option,
+            as: "options",
+            attributes: ["id", "description"],
+          },
+        ],
         where: db.where(db.fn("YEAR", db.col("eventdate")), year),
       }).catch((error) => [])
       if (events && events.length > 0) {
