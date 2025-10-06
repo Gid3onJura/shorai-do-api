@@ -32,7 +32,7 @@ module.exports = {
       if (events && events.length > 0) {
         return events
       } else {
-        return false
+        return []
       }
     } catch (error) {
       console.log(error)
@@ -89,7 +89,26 @@ module.exports = {
       }
 
       await transaction.commit()
-      return true
+
+      // 👉 danach das vollständige Event mit Optionen laden:
+      const fullEvent = await Event.findByPk(newEvent.id, {
+        attributes: [
+          "id",
+          "eventdate",
+          "eventcolor",
+          "eventtype",
+          "description",
+          "override",
+          "repeating",
+          "repetitiontype",
+          "eventdatetimefrom",
+          "eventdatetimeto",
+          "deadline",
+        ],
+        include: [{ model: Option, as: "options", attributes: ["id", "description"] }],
+      })
+
+      return fullEvent
     } catch (error) {
       await transaction.rollback()
       console.log(error)

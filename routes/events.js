@@ -63,9 +63,9 @@ router.post("/", authenticateToken, validation(schemas.createCalendarEvent, "bod
     options: requestBody.options,
   }
 
-  const eventAdded = await eventsController.createCalendarEvent(eventData)
-  if (eventAdded) {
-    return response.status(201).send({})
+  const newEvent = await eventsController.createCalendarEvent(eventData)
+  if (newEvent) {
+    return response.status(201).send(newEvent)
   } else {
     return response.status(500).send({
       message: "event not created",
