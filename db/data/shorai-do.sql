@@ -72,6 +72,7 @@ CREATE TABLE `events` (
   `repetitiontype` varchar(100) DEFAULT NULL,
   `eventdatetimefrom` datetime DEFAULT NULL,
   `eventdatetimeto` datetime DEFAULT NULL,
+  `note` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

@@ -51,6 +51,9 @@ const Calendar = db.define("events", {
   deadline: {
     type: Sequelize.DATE,
   },
+  note: {
+    type: Sequelize.TEXT,
+  },
 })
 
 // 💡 Beziehung definieren

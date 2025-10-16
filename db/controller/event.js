@@ -20,6 +20,7 @@ module.exports = {
           "eventdatetimefrom",
           "eventdatetimeto",
           "deadline",
+          "note",
         ],
         include: [
           {
@@ -54,6 +55,7 @@ module.exports = {
           "eventdatetimefrom",
           "eventdatetimeto",
           "deadline",
+          "note",
         ],
         include: [
           {
@@ -104,6 +106,7 @@ module.exports = {
           "eventdatetimefrom",
           "eventdatetimeto",
           "deadline",
+          "note",
         ],
         include: [{ model: Option, as: "options", attributes: ["id", "description"] }],
       })

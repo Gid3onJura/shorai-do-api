@@ -38,6 +38,7 @@ router.get("/reduced", async (request, response) => {
         eventtype: event.dataValues.eventtype,
         deadline: event.dataValues.deadline,
         options: event.dataValues.options,
+        note: event.dataValues.note,
       })
     })
     return response.send(reducedEvents).status(200)
@@ -61,6 +62,7 @@ router.post("/", authenticateToken, validation(schemas.createCalendarEvent, "bod
     eventdatetimeto: requestBody.eventdatetimeto,
     deadline: requestBody.deadline,
     options: requestBody.options,
+    note: requestBody.note,
   }
 
   const newEvent = await eventsController.createCalendarEvent(eventData)
@@ -87,6 +89,9 @@ router.patch("/", authenticateToken, validation(schemas.updateCalendarEvent, "bo
     repetitiontype: requestBody.repetitiontype,
     eventdatetimefrom: requestBody.eventdatetimefrom,
     eventdatetimeto: requestBody.eventdatetimeto,
+    deadline: requestBody.deadline,
+    options: requestBody.options,
+    note: requestBody.note,
   }
 
   const eventUpdated = await eventsController.updateCalendarEvent(eventData)
