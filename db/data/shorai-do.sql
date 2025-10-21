@@ -95,6 +95,8 @@ CREATE TABLE `options` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `eventid` smallint(5) unsigned NOT NULL,
   `description` varchar(255) NOT NULL,
+  `slug` varchar(255) NULL,
+  `type` varchar(255) NULL,
   `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
   `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),

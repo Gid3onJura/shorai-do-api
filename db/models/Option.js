@@ -8,6 +8,12 @@ const Option = db.define("options", {
   description: {
     type: Sequelize.STRING,
   },
+  slug: {
+    type: Sequelize.STRING,
+  },
+  type: {
+    type: Sequelize.STRING,
+  },
 })
 
 module.exports = Option

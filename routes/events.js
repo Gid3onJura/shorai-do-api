@@ -50,6 +50,15 @@ router.get("/reduced", async (request, response) => {
 router.post("/", authenticateToken, validation(schemas.createCalendarEvent, "body"), async (request, response) => {
   const requestBody = request.body
 
+  // check if event is already exists
+  const existingEvents = await eventsController.findEventByLabel(requestBody.description)
+
+  if (existingEvents && existingEvents.length > 0) {
+    return response.status(409).send({
+      message: "event already exists",
+    })
+  }
+
   let eventData = {
     eventdate: requestBody.eventdate,
     eventcolor: requestBody.eventcolor,

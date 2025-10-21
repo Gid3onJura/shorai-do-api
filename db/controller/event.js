@@ -26,7 +26,7 @@ module.exports = {
           {
             model: Option,
             as: "options",
-            attributes: ["id", "description"],
+            attributes: ["id", "description", "slug", "type"],
           },
         ],
       }).catch((error) => [])
@@ -61,10 +61,48 @@ module.exports = {
           {
             model: Option,
             as: "options",
-            attributes: ["id", "description"],
+            attributes: ["id", "description", "slug", "type"],
           },
         ],
         where: db.where(db.fn("YEAR", db.col("eventdate")), year),
+      }).catch((error) => [])
+      if (events && events.length > 0) {
+        return events
+      } else {
+        return []
+      }
+    } catch (error) {
+      console.log(error)
+      return []
+    }
+  },
+  findEventByLabel: async function (label) {
+    try {
+      const events = await Event.findAll({
+        attributes: [
+          "id",
+          "eventdate",
+          "eventcolor",
+          "eventtype",
+          "description",
+          "override",
+          "repeating",
+          "repetitiontype",
+          "eventdatetimefrom",
+          "eventdatetimeto",
+          "deadline",
+          "note",
+        ],
+        include: [
+          {
+            model: Option,
+            as: "options",
+            attributes: ["id", "description", "slug", "type"],
+          },
+        ],
+        where: {
+          description: label,
+        },
       }).catch((error) => [])
       if (events && events.length > 0) {
         return events
@@ -82,9 +120,11 @@ module.exports = {
       const newEvent = await Event.create(data, { transaction: transaction })
 
       if (data.options && Array.isArray(data.options) && data.options.length > 0) {
-        const optionObjects = data.options.map((desc) => ({
+        const optionObjects = data.options.map((option) => ({
           eventid: newEvent.id,
-          description: desc,
+          description: option.label,
+          slug: option.slug,
+          type: option.type,
         }))
 
         await Option.bulkCreate(optionObjects, { transaction: transaction })
@@ -108,7 +148,7 @@ module.exports = {
           "deadline",
           "note",
         ],
-        include: [{ model: Option, as: "options", attributes: ["id", "description"] }],
+        include: [{ model: Option, as: "options", attributes: ["id", "description", "slug", "type"] }],
       })
 
       return fullEvent
