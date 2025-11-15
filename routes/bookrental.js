@@ -62,7 +62,7 @@ router.delete("/", authenticateToken, validation(schemas.deleteBookRental, "body
   const deletedBookRental = await bookrentalController.deleteBookRental(rentalid)
 
   if (deletedBookRental) {
-    return response.status(200).send()
+    return response.status(200).send({})
   } else {
     return response.status(404).send({
       message: "book rental not deleted",
