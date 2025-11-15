@@ -42,10 +42,6 @@ app.use(function (request, response, next) {
   next()
 })
 
-//const mockUser = require('./mock/user.json');
-
-app.listen(PORT, () => console.log(`it's alive on ${BASE_URL}:${PORT}`))
-
 // auth routes
 app.use("/", require("./routes/auth"))
 
@@ -55,11 +51,16 @@ app.use("/user", require("./routes/users"))
 // event routes
 app.use("/event", require("./routes/events"))
 
-// test routes
-app.use("/", require("./routes/test"))
-
 // utility routes
 app.use("/utils", require("./routes/utils"))
 
 // exam routes
 app.use("/exam", require("./routes/exam"))
+
+// book rental routes
+app.use("/bookrental", require("./routes/bookrental"))
+
+// test routes
+app.use("/", require("./routes/test"))
+
+app.listen(PORT, () => console.log(`it's alive on ${BASE_URL}:${PORT}`))

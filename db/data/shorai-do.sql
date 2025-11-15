@@ -107,3 +107,33 @@ CREATE TABLE `options` (
     ON DELETE CASCADE 
     ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `books`
+--
+CREATE TABLE `books` (
+	`id` smallint(5) unsigned auto_increment NOT NULL,
+	`bookname` varchar(255) NOT NULL,
+  `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
+  `updatedAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `bookrentals`
+--
+CREATE TABLE `bookrentals` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `bookid` smallint(5) unsigned NOT NULL,
+  `readername` varchar(255) NOT NULL,
+  `rentaldate` date NOT NULL,
+  `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
+  `updatedAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `bookid` (`bookid`),
+  KEY `bookrental_FK` (`bookid`),
+  CONSTRAINT `bookrental_FK` 
+    FOREIGN KEY (`bookid`) REFERENCES `books` (`id`) 
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

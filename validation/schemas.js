@@ -80,5 +80,14 @@ const schemas = {
     graduatedon: Joi.date().required(),
     examid: Joi.number().required(),
   }),
+  createBookRental: Joi.object().keys({
+    bookid: Joi.number().required().required(),
+    readername: Joi.string().required(),
+    rentaldate: Joi.date().required(),
+  }),
+  deleteBookRental: Joi.object().keys({
+    rentalid: Joi.number().required().required(),
+    bookid: Joi.number().required().required(),
+  }),
 }
 module.exports = schemas
