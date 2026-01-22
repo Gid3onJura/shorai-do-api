@@ -11,6 +11,7 @@ const schemas = {
     color: Joi.string(),
     dojo: Joi.number(),
     graduatedon: Joi.date(),
+    role: Joi.array().items(Joi.string()),
   }),
   loginUser: Joi.object().keys({
     nickname: Joi.string().required(),
@@ -41,6 +42,7 @@ const schemas = {
     graduatedon: Joi.date(),
     user: Joi.number().required(),
     activated: Joi.boolean(),
+    role: Joi.array().items(Joi.string()),
   }),
   createCalendarEvent: Joi.object().keys({
     eventdate: Joi.date().required(),

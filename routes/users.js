@@ -8,6 +8,7 @@ const examController = require("../db/controller/exam")
 const schemas = require("../validation/schemas")
 const validation = require("../validation/validation")
 const { authenticateToken } = require("../middleware/authenticateToken")
+const { validateRoles } = require("../lib/roleValidator")
 
 /**
  * get all user
@@ -72,6 +73,16 @@ router.delete("/:id", authenticateToken, async (request, response) => {
 router.post("/", authenticateToken, validation(schemas.createUser, "body"), async (request, response) => {
   const requestBody = request.body
 
+  // Rollen validieren
+  if (requestBody.role && requestBody.role.length > 0) {
+    const rolesValidation = validateRoles(requestBody.role)
+    if (!rolesValidation.valid) {
+      return response.status(400).send({
+        message: rolesValidation.message,
+      })
+    }
+  }
+
   let userData = {
     name: requestBody.name,
     nickname: requestBody.nickname,
@@ -82,6 +93,7 @@ router.post("/", authenticateToken, validation(schemas.createUser, "body"), asyn
     color: requestBody.color,
     graduatedon: requestBody.graduatedon,
     activated: requestBody.activated,
+    roles: requestBody.roles || ["user"],
   }
 
   if (requestBody.password) {
@@ -143,6 +155,16 @@ router.post("/", authenticateToken, validation(schemas.createUser, "body"), asyn
 router.patch("/", authenticateToken, validation(schemas.updateUser, "body"), async (request, response) => {
   const requestBody = request.body
 
+  // Rollen validieren
+  if (requestBody.role && requestBody.role.length > 0) {
+    const rolesValidation = validateRoles(requestBody.role)
+    if (!rolesValidation.valid) {
+      return response.status(400).send({
+        message: rolesValidation.message,
+      })
+    }
+  }
+
   let userData = {
     name: requestBody.name,
     nickname: requestBody.nickname,
@@ -154,6 +176,7 @@ router.patch("/", authenticateToken, validation(schemas.updateUser, "body"), asy
     graduatedon: requestBody.graduatedon,
     user: requestBody.user,
     activated: requestBody.activated,
+    roles: requestBody.roles,
   }
 
   if (requestBody.password) {

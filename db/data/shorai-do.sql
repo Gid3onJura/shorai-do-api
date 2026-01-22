@@ -43,6 +43,7 @@ CREATE TABLE `users` (
   `category` varchar(10) NULL,
   `color` varchar(10) NULL,
   `graduatedon` date NULL,
+  `roles` json NULL,
   `updatedAt` datetime DEFAULT NULL,
   `resetcode` VARCHAR(6) NULL,
   PRIMARY KEY (`id`),
