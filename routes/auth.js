@@ -19,6 +19,7 @@ router.post("/login", validation(schemas.loginUser, "body"), async (request, res
       const accessToken = await generateAccessToken({
         id: userAllowed.id,
         nickname: userAllowed.nickname,
+        roles: userAllowed.roles,
       })
       const refreshToken = await generateRefreshToken(userAllowed)
       const saveRefTokenSuccessfull = await saveRefreshToken(refreshToken)

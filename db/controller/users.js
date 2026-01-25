@@ -168,7 +168,7 @@ module.exports = {
   userExists: async function (nickname, password) {
     try {
       const user = await User.findOne({
-        attributes: ["id", "nickname"],
+        attributes: ["id", "nickname", "roles"],
         where: { nickname: nickname, password: md5(password), activated: true },
       })
       if (user) {

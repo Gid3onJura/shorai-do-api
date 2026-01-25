@@ -74,13 +74,19 @@ router.post("/", authenticateToken, validation(schemas.createUser, "body"), asyn
   const requestBody = request.body
 
   // Rollen validieren
-  if (requestBody.role && requestBody.role.length > 0) {
-    const rolesValidation = validateRoles(requestBody.role)
+  if (requestBody.roles && requestBody.roles.length > 0) {
+    const rolesValidation = validateRoles(requestBody.roles)
     if (!rolesValidation.valid) {
       return response.status(400).send({
         message: rolesValidation.message,
       })
     }
+  }
+
+  // sichergehen das jeder neue User die Rolle "user" bekommt
+  let userRoles = requestBody.roles || []
+  if (!userRoles.includes("user")) {
+    userRoles.push("user")
   }
 
   let userData = {
@@ -93,7 +99,7 @@ router.post("/", authenticateToken, validation(schemas.createUser, "body"), asyn
     color: requestBody.color,
     graduatedon: requestBody.graduatedon,
     activated: requestBody.activated,
-    roles: requestBody.roles || ["user"],
+    roles: userRoles,
   }
 
   if (requestBody.password) {

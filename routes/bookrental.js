@@ -26,7 +26,8 @@ router.post("/", authenticateToken, validation(schemas.createBookRental, "body")
   const existingBookRental = await bookrentalController.findBookRentalByBookId(bookid)
 
   if (existingBookRental) {
-    return response.status(409).send({
+    return response.status(200).send({
+      status: 409,
       message: "book is already rented",
     })
   }
