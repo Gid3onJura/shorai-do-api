@@ -61,6 +61,7 @@ Calendar.hasMany(Option, {
   foreignKey: "eventid",
   as: "options",
   onDelete: "CASCADE",
+  onUpdate: "CASCADE",
 })
 
 module.exports = Calendar

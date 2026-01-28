@@ -126,7 +126,7 @@ CREATE TABLE `books` (
 CREATE TABLE `bookrentals` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `bookid` smallint(5) unsigned NOT NULL,
-  `readername` varchar(255) NOT NULL,
+  `userid` smallint(5) unsigned NOT NULL,
   `rentaldate` date DEFAULT NULL,
   `reservationdate` date DEFAULT NULL,
   `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
@@ -134,8 +134,13 @@ CREATE TABLE `bookrentals` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `bookid` (`bookid`),
   KEY `bookrental_FK` (`bookid`),
+  KEY `bookrental_userid_FK` (`userid`),
   CONSTRAINT `bookrental_FK` 
     FOREIGN KEY (`bookid`) REFERENCES `books` (`id`) 
     ON DELETE CASCADE 
+    ON UPDATE CASCADE,
+  CONSTRAINT `bookrental_userid_FK`
+    FOREIGN KEY (`userid`) REFERENCES `users` (`id`)
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

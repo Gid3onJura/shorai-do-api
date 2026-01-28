@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize")
 const db = require("../index")
-const Book = require("./Book")
+const User = require("./User")
 
 const BookRental = db.define("bookrentals", {
   bookid: {
@@ -8,14 +8,25 @@ const BookRental = db.define("bookrentals", {
     unique: true,
     allowNull: false,
   },
-  readername: {
-    type: Sequelize.STRING,
+  userid: {
+    type: Sequelize.INTEGER,
     allowNull: false,
   },
   rentaldate: {
     type: Sequelize.DATE,
-    allowNull: false,
+    allowNull: true,
   },
+  reservationdate: {
+    type: Sequelize.DATE,
+    allowNull: true,
+  },
+})
+
+BookRental.hasMany(User, {
+  foreignKey: "id",
+  as: "user",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
 })
 
 module.exports = BookRental

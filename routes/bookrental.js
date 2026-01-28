@@ -21,25 +21,36 @@ router.post("/", authenticateToken, validation(schemas.createBookRental, "body")
   const requestBody = request.body
 
   const bookid = requestBody.bookid
+  const rentaldate = requestBody.rentaldate ?? null
+  const reservationdate = requestBody.reservationdate ?? null
 
   // check if book is already rented
   const existingBookRental = await bookrentalController.findBookRentalByBookId(bookid)
 
-  if (existingBookRental) {
-    return response.status(200).send({
-      status: 409,
-      message: "book is already rented",
-    })
-  }
+  if (rentaldate) {
+    //#region rental
+    if (existingBookRental && existingBookRental.rentaldate) {
+      return response.status(200).send({
+        status: 409,
+        message: "book is already rented",
+      })
+    }
 
-  // create new book rental
-  const newBookRental = await bookrentalController.createBookRental(requestBody)
+    // create new book rental
+    const newBookRental = await bookrentalController.createBookRental(requestBody)
 
-  if (newBookRental) {
-    return response.status(201).send({ newbookrental: newBookRental })
+    if (newBookRental) {
+      return response.status(201).send({ newbookrental: newBookRental })
+    } else {
+      return response.status(400).send({
+        message: "book not rent",
+      })
+    }
+  } else if (reservationdate) {
+    //#region reservation
   } else {
     return response.status(400).send({
-      message: "book not rent",
+      message: "das Buch ist weder als ausgeliehen noch reserviert markiert",
     })
   }
 })

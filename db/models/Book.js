@@ -12,6 +12,7 @@ const Book = db.define("books", {
 Book.hasOne(BookRental, {
   foreignKey: "bookid",
   onDelete: "CASCADE",
+  onUpdate: "CASCADE",
 })
 
 module.exports = Book

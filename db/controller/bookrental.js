@@ -8,11 +8,11 @@ module.exports = {
   findAllBookRentals: async function () {
     try {
       const books = await Book.findAll({
-        attributes: ["id", "bookname"], // was du sehen willst
+        attributes: ["id", "bookname"],
         include: [
           {
             model: BookRental,
-            attributes: ["id", "readername", "rentaldate"],
+            attributes: ["id", "rentaldate"],
             required: false, // wichtig: damit auch nicht ausgeliehene Bücher angezeigt werden
           },
         ],
@@ -27,7 +27,7 @@ module.exports = {
   findBookRentalByBookId: async function (bookid) {
     try {
       const bookrental = await BookRental.findOne({
-        attributes: ["bookid", "readername", "rentaldate"],
+        attributes: ["bookid", "rentaldate", "reservationdate"],
         where: {
           bookid: parseInt(bookid, 10),
         },
@@ -45,7 +45,7 @@ module.exports = {
   findBookRentalById: async function (rentalid, bookid) {
     try {
       const bookrental = await BookRental.findOne({
-        attributes: ["bookid", "readername", "rentaldate"],
+        attributes: ["bookid", "rentaldate"],
         where: {
           bookid: parseInt(bookid, 10),
           id: parseInt(rentalid, 10),

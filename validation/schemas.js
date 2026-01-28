@@ -84,8 +84,9 @@ const schemas = {
   }),
   createBookRental: Joi.object().keys({
     bookid: Joi.number().required(),
-    readername: Joi.string().required(),
-    rentaldate: Joi.date().required(),
+    userid: Joi.number().required(),
+    rentaldate: Joi.date(),
+    reservationdate: Joi.date(),
   }),
   deleteBookRental: Joi.object().keys({
     rentalid: Joi.number().required(),
