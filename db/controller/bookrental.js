@@ -3,6 +3,7 @@ const Sequelize = require("sequelize")
 const Op = Sequelize.Op
 const db = require("../index")
 const BookRental = require("../models/BookRental")
+const User = require("../models/User")
 
 module.exports = {
   findAllBookRentals: async function () {
@@ -12,8 +13,13 @@ module.exports = {
         include: [
           {
             model: BookRental,
-            attributes: ["id", "rentaldate"],
+            attributes: ["id", "rentaldate", "reservationdate"],
             required: false, // wichtig: damit auch nicht ausgeliehene Bücher angezeigt werden
+            include: {
+              model: User,
+              as: "user",
+              attributes: ["id", "name"],
+            },
           },
         ],
       })

@@ -21,6 +21,7 @@ router.post("/", authenticateToken, validation(schemas.createBookRental, "body")
   const requestBody = request.body
 
   const bookid = requestBody.bookid
+  const userid = requestBody.userid
   const rentaldate = requestBody.rentaldate ?? null
   const reservationdate = requestBody.reservationdate ?? null
 
@@ -48,6 +49,23 @@ router.post("/", authenticateToken, validation(schemas.createBookRental, "body")
     }
   } else if (reservationdate) {
     //#region reservation
+    if (existingBookRental && existingBookRental.reservationdate) {
+      return response.status(200).send({
+        status: 409,
+        message: "book is already reserved",
+      })
+    }
+
+    // create new book reservation
+    const newBookReservation = await bookrentalController.createBookRental(requestBody)
+
+    if (newBookReservation) {
+      return response.status(201).send({ newbookrental: newBookReservation })
+    } else {
+      return response.status(400).send({
+        message: "book not reserved",
+      })
+    }
   } else {
     return response.status(400).send({
       message: "das Buch ist weder als ausgeliehen noch reserviert markiert",

@@ -22,8 +22,8 @@ const BookRental = db.define("bookrentals", {
   },
 })
 
-BookRental.hasMany(User, {
-  foreignKey: "id",
+BookRental.belongsTo(User, {
+  foreignKey: "userid",
   as: "user",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
