@@ -37,15 +37,28 @@ router.post("/", authenticateToken, validation(schemas.createBookRental, "body")
       })
     }
 
-    // create new book rental
-    const newBookRental = await bookrentalController.createBookRental(requestBody)
+    if (existingBookRental && existingBookRental.reservationdate && existingBookRental.userid === userid) {
+      // update existing reservation to rental
+      const updatedBookRental = await bookrentalController.updateBookRental(existingBookRental.id, rentaldate)
 
-    if (newBookRental) {
-      return response.status(201).send({ newbookrental: newBookRental })
+      if (updatedBookRental && updatedBookRental[0] === 1) {
+        return response.status(201).send(true)
+      } else {
+        return response.status(400).send({
+          message: "book not rent",
+        })
+      }
     } else {
-      return response.status(400).send({
-        message: "book not rent",
-      })
+      // create new book rental
+      const newBookRental = await bookrentalController.createBookRental(requestBody)
+
+      if (newBookRental) {
+        return response.status(201).send({ newbookrental: newBookRental })
+      } else {
+        return response.status(400).send({
+          message: "book not rent",
+        })
+      }
     }
   } else if (reservationdate) {
     //#region reservation

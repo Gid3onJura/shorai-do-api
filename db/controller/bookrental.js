@@ -33,7 +33,7 @@ module.exports = {
   findBookRentalByBookId: async function (bookid) {
     try {
       const bookrental = await BookRental.findOne({
-        attributes: ["bookid", "rentaldate", "reservationdate"],
+        attributes: ["id", "bookid", "userid", "rentaldate", "reservationdate"],
         where: {
           bookid: parseInt(bookid, 10),
         },
@@ -72,6 +72,26 @@ module.exports = {
       const newBookRental = await BookRental.create(data)
       if (newBookRental && newBookRental.id) {
         return newBookRental.id
+      } else {
+        return false
+      }
+    } catch (error) {
+      console.log(error)
+      return false
+    }
+  },
+  updateBookRental: async function (rentalid, rentaldate) {
+    try {
+      const updatedBookRental = await BookRental.update(
+        { rentaldate: rentaldate },
+        {
+          where: {
+            id: parseInt(rentalid, 10),
+          },
+        },
+      )
+      if (updatedBookRental && updatedBookRental.id) {
+        return updatedBookRental.id
       } else {
         return false
       }
