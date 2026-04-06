@@ -174,4 +174,22 @@ module.exports = {
       return false
     }
   },
+  deleteCalendarEventById: async function (id) {
+    try {
+      const event = await Event.destroy({
+        where: { id: id },
+      })
+      if (event) {
+        return true
+      } else {
+        return false
+      }
+    } catch (error) {
+      console.log(error)
+      return {
+        status: 500,
+        message: "database error",
+      }
+    }
+  },
 }

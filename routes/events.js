@@ -114,4 +114,16 @@ router.patch("/", authenticateToken, validation(schemas.updateCalendarEvent, "bo
   }
 })
 
+/**
+ * delete event by id
+ */
+router.delete("/:id", authenticateToken, async (request, response) => {
+  const deletedEvent = await eventsController.deleteCalendarEventById(request.params.id)
+  if (deletedEvent) {
+    return response.status(200).send()
+  } else {
+    return response.status(404).send()
+  }
+})
+
 module.exports = router
