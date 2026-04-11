@@ -64,7 +64,7 @@ module.exports = {
             attributes: ["id", "description", "slug", "type"],
           },
         ],
-        where: db.where(db.fn("YEAR", db.col("eventdate")), year),
+        where: db.where(db.fn("YEAR", db.col("eventdate")), { [Op.gte]: year }),
       }).catch((error) => [])
       if (events && events.length > 0) {
         return events
