@@ -92,5 +92,9 @@ const schemas = {
     rentalid: Joi.number().required(),
     bookid: Joi.number().required(),
   }),
+  createSurvey: Joi.object().keys({
+    deadline: Joi.date().default(null),
+    survey: Joi.object().required(),
+  }),
 }
 module.exports = schemas

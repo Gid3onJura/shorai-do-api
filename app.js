@@ -23,7 +23,7 @@ app.use(
     methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH"],
     preflightContinue: false,
     credentials: true,
-  })
+  }),
 )
 // app.use(cors())
 
@@ -59,6 +59,9 @@ app.use("/exam", require("./routes/exam"))
 
 // book rental routes
 app.use("/bookrental", require("./routes/bookrental"))
+
+// survey routes
+app.use("/survey", require("./routes/survey"))
 
 // test routes
 app.use("/", require("./routes/test"))
