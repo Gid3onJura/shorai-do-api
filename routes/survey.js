@@ -6,6 +6,7 @@ const { authenticateToken } = require("../middleware/authenticateToken")
 const schemas = require("../validation/schemas")
 const validation = require("../validation/validation")
 const surveyresultController = require("../db/controller/surveyresult")
+const userController = require("../db/controller/users")
 
 /**
  * get all surveys that are not expired (deadline in the future or no deadline)
@@ -116,9 +117,21 @@ router.get("/:id/stats", async (request, response) => {
       }
     })
 
+    const userWithRoleUser = []
+    const allUsers = await userController.findAllUser()
+    allUsers.forEach(async (user, index, array) => {
+      const userId = user.dataValues.id
+      if (user.dataValues.roles.includes("user")) {
+        userWithRoleUser.push(user)
+      }
+    })
+
+    const participationAverageUser = (userWithRoleUser.length / answers.length) * 100
+
     const responseBody = {
       stats,
       totalResponses: answers.length,
+      participationAverageUser,
     }
 
     return response.status(200).send(responseBody)
