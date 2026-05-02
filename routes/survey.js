@@ -126,7 +126,7 @@ router.get("/:id/stats", async (request, response) => {
       }
     })
 
-    const participationAverageUser = (userWithRoleUser.length / answers.length) * 100
+    const participationAverageUser = (answers.length * 100) / userWithRoleUser.length
 
     const responseBody = {
       stats,
