@@ -94,10 +94,6 @@ router.post("/", authenticateToken, validation(schemas.createUser, "body"), asyn
     nickname: requestBody.nickname,
     email: requestBody.email,
     birth: requestBody.birth,
-    rank: requestBody.rank,
-    category: requestBody.category,
-    color: requestBody.color,
-    graduatedon: requestBody.graduatedon,
     activated: requestBody.activated,
     roles: userRoles,
   }
@@ -146,6 +142,7 @@ router.post("/", authenticateToken, validation(schemas.createUser, "body"), asyn
   }
 
   const userAdded = await userController.createUser(userData)
+
   if (userAdded) {
     return response.status(201).send({ userid: userAdded })
   } else {
