@@ -95,7 +95,7 @@ router.post("/", authenticateToken, validation(schemas.createUser, "body"), asyn
     email: requestBody.email,
     birth: requestBody.birth,
     activated: requestBody.activated,
-    roles: userRoles,
+    roles: JSON.stringify(userRoles),
   }
 
   if (requestBody.password) {
@@ -179,7 +179,7 @@ router.patch("/", authenticateToken, validation(schemas.updateUser, "body"), asy
     graduatedon: requestBody.graduatedon,
     user: requestBody.user,
     activated: requestBody.activated,
-    roles: requestBody.roles,
+    roles: JSON.stringify(requestBody.roles),
   }
 
   if (requestBody.password) {

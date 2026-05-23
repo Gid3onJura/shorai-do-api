@@ -18,7 +18,7 @@ const User = db.define("users", {
     type: Sequelize.STRING,
   },
   roles: {
-    type: Sequelize.ARRAY(Sequelize.STRING),
+    type: Sequelize.STRING,
   },
   activated: {
     type: Sequelize.BOOLEAN,
