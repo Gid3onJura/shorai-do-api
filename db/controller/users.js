@@ -146,7 +146,7 @@ module.exports = {
       }
     } catch (error) {
       console.log(error)
-      return false
+      return error
     }
   },
   updateUser: async function (data) {
