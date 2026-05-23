@@ -25,6 +25,7 @@ router.get("/", authenticateToken, async (request, response) => {
       const userId = user.dataValues.id
       const examsFromUser = await examController.findAllExamsFromUser(userId)
       user.dataValues.exams = examsFromUser
+      user.dataValues.roles = JSON.parse(user.dataValues.roles)
       allUsers.push(user)
       count++
       if (count === findUser.length) resolve()

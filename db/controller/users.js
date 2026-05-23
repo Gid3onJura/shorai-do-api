@@ -139,8 +139,8 @@ module.exports = {
   createUser: async function (data) {
     try {
       const newUser = await User.create(data)
-      if (newUser && newUser.id) {
-        return newUser.id
+      if (newUser) {
+        return newUser
       } else {
         return false
       }
