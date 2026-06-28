@@ -9,23 +9,23 @@ const surveyresultController = require("../db/controller/surveyresult")
 const userController = require("../db/controller/users")
 
 /**
- * get all surveys that are not expired (deadline in the future or no deadline)
+ * get all surveys
  */
 router.get("/", async (request, response) => {
   try {
     const surveys = await Survey.findAll({
-      where: {
-        [Sequelize.Op.or]: [
-          {
-            deadline: {
-              [Sequelize.Op.gt]: new Date(),
-            },
-          },
-          {
-            deadline: null,
-          },
-        ],
-      },
+      // where: {
+      //   [Sequelize.Op.or]: [
+      //     {
+      //       deadline: {
+      //         [Sequelize.Op.gt]: new Date(),
+      //       },
+      //     },
+      //     {
+      //       deadline: null,
+      //     },
+      //   ],
+      // },
       order: [["deadline", "ASC"]],
     })
 

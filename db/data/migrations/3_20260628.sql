@@ -1,0 +1,1 @@
+ALTER TABLE `users` ADD `imagepermission` TINYINT UNSIGNED DEFAULT 1 NULL;

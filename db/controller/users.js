@@ -6,7 +6,7 @@ module.exports = {
   findAllUser: async function () {
     try {
       const users = await User.findAll({
-        attributes: ["id", "nickname", "name", "email", "dojo", "activated", "birth", "roles"],
+        attributes: ["id", "nickname", "name", "email", "dojo", "activated", "birth", "roles", "imagepermission"],
         order: [["id", "ASC"]],
       }).catch((error) => [])
       if (users && users.length > 0) {
@@ -22,13 +22,13 @@ module.exports = {
   findUserById: async function (id) {
     try {
       const user = await User.findOne({
-        attributes: ["id", "nickname", "name", "email", "dojo", "activated", "birth", "roles"],
+        attributes: ["id", "nickname", "name", "email", "dojo", "activated", "birth", "roles", "imagepermission"],
         where: { id: id },
       })
       if (user) {
-        // append exams to user
         const examsFromUser = await examController.findAllExamsFromUser(user.id)
         user.dataValues.exams = examsFromUser
+        user.dataValues.roles = JSON.parse(user.dataValues.roles)
 
         return user
       } else {
