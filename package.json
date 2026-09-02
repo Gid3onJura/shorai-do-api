@@ -19,10 +19,10 @@
   },
   "homepage": "https://github.com/Gid3onJura/shorai-do-api#readme",
   "dependencies": {
-    "body-parser": "^1.20.1",
+    "body-parser": "^2.3.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
-    "express": "^4.18.2",
+    "express": "^5.2.1",
     "https": "^1.0.0",
     "joi": "^17.6.4",
     "jsonwebtoken": "^9.0.0",
