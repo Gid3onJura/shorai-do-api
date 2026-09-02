@@ -13,7 +13,7 @@ router.get("/", async (request, response) => {
   })
 })
 
-router.get("*", async (request, response) => {
+router.get("/*splat", async (request, response) => {
   return response.status(404).send({
     message: "this route is unkown",
   })
